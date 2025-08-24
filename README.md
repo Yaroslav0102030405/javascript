@@ -1,282 +1,282 @@
-# Повна шпаргалка JavaScript для Java-розробника
+# Полная шпаргалка по JavaScript для Java-разработчика
 
-## Зміст
-1. [Типи даних](#типи-даних)
-2. [Змінні: var, let, const](#змінні-var-let-const)
-3. [Функції](#функції)
-4. [Об'єкти та ООП](#объекты-и-ооп)
-5. [Прототипне успадкування](#прототипне успадкування)
-6. [Класи в ES6+](#класи-в-es6)
-7. [Області видимості та контекст this](#області-видимості-і-контекст-this)
-8. [Замикання](#замикання)
-9. [Методи функцій: bind, call, apply](#методи-функцій-bind-call-apply)
-10. [Асинхронне програмування](#асинхронне-програмування)
-11. [Колекції](#колекції)
-12. [Обробка винятків](#обробка-виключень)
-13. [Управління пам'яттю та складання сміття](#управління-пам'яттю-і-складання-сміття)
+## Содержание
+1. [Типы данных](#типы-данных)
+2. [Переменные: var, let, const](#переменные-var-let-const)
+3. [Функции](#функции)
+4. [Объекты и ООП](#объекты-и-ооп)
+5. [Прототипное наследование](#прототипное-наследование)
+6. [Классы в ES6+](#классы-в-es6)
+7. [Области видимости и контекст this](#области-видимости-и-контекст-this)
+8. [Замыкания](#замыкания)
+9. [Методы функций: bind, call, apply](#методы-функций-bind-call-apply)
+10. [Асинхронное программирование](#асинхронное-программирование)
+11. [Коллекции](#коллекции)
+12. [Обработка исключений](#обработка-исключений)
+13. [Управление памятью и сборка мусора](#управление-памятью-и-сборка-мусора)
 14. [Event Loop](#event-loop)
-15. [Робота з DOM](#робота-з-dom)
+15. [Работа с DOM](#работа-с-dom)
 16. [Web Workers](#web-workers)
 17. [Web Storage API](#web-storage-api)
 18. [WebSockets](#websockets)
 19. [Node.js](#nodejs)
-20. [JSDoc та типізація](#jsdoc-і-типізація)
-21. [Тестування: Jest та Mocha](#тестування-jest-і-mocha)
-22. [Сучасні можливості JavaScript](#сучасні-можливості-javascript)
+20. [JSDoc и типизация](#jsdoc-и-типизация)
+21. [Тестирование: Jest и Mocha](#тестирование-jest-и-mocha)
+22. [Современные возможности JavaScript](#современные-возможности-javascript)
 
 ---
 
-## Типи даних
+## Типы данных
 
-JavaScript має 8 основних типів даних:
+В JavaScript есть 8 основных типов данных:
 
-### Примітивні типи:
-1. **Number** - числа (цілі та з плаваючою точкою)
-2. **BigInt** - довільно великі цілі числа
-3. **String** - рядки
-4. **Boolean** - логічний тип (true/false)
-5. **null** - спеціальне значення, що означає "порожньо"
-6. **undefined** - спеціальне значення, що означає "не визначено"
-7. **Symbol** - унікальні ідентифікатори
+### Примитивные типы:
+1. **Number** - числа (целые и с плавающей точкой)
+2. **BigInt** - произвольно большие целые числа
+3. **String** - строки
+4. **Boolean** - логический тип (true/false)
+5. **null** - специальное значение, обозначающее "пусто"
+6. **undefined** - специальное значение, обозначающее "не определено"
+7. **Symbol** - уникальные идентификаторы
 
-### Об'єктний тип:
-8. **Object** - об'єкти, масиви, функції тощо.
+### Объектный тип:
+8. **Object** - объекты, массивы, функции и т.д.
 
 ```javascript
-// Приклади типів даних
+// Примеры типов данных
 const num = 42;
 const bigInt = 9007199254740991n; // BigInt
-const str = "Привіт, мир!";
+const str = "Привет, мир!";
 const bool = true;
 const nullValue = null;
 let undefinedValue;
 const sym = Symbol("id");
-const obj = {name: "John", age: 30};
+const obj = { name: "John", age: 30 };
 
-// Перевірка типу
-console.log(typeof num); // "number"
-console.log(typeof bigInt); // "bigint"
-console.log(typeof str); // "string"
-console.log(typeof bool); // "boolean"
-console.log(typeof nullValue); // "object" (це історична помилка в JS)
+// Проверка типа
+console.log(typeof num);        // "number"
+console.log(typeof bigInt);     // "bigint"
+console.log(typeof str);        // "string"
+console.log(typeof bool);       // "boolean"
+console.log(typeof nullValue);  // "object" (это историческая ошибка в JS)
 console.log(typeof undefinedValue); // "undefined"
-console.log(typeof sym); // "symbol"
-console.log(typeof obj); // "object"
+console.log(typeof sym);        // "symbol"
+console.log(typeof obj);        // "object"
 console.log(typeof function(){}); // "function"
 
-// Перетворення типів
-console.log(String(42)); // "42"
-console.log(Number("42")); // 42
-console.log(Boolean(1)); // true
-console.log(Boolean(0)); // false
-console.log(Boolean("")); // false
-console.log(Boolean("0")); // true (непорожній рядок)
-````
+// Преобразование типов
+console.log(String(42));        // "42"
+console.log(Number("42"));      // 42
+console.log(Boolean(1));        // true
+console.log(Boolean(0));        // false
+console.log(Boolean(""));       // false
+console.log(Boolean("0"));      // true (непустая строка)
+```
 
-## Змінні: var, let, const
+## Переменные: var, let, const
 
 ### var
-- має функціональну область видимості
-- Піднімається (hoisting) - оголошення змінної переміщується на початок функції/скрипту
-- Можна перевизначати у тій самій області видимості
+- Имеет функциональную область видимости
+- Поднимается (hoisting) - объявление переменной перемещается в начало функции/скрипта
+- Можно переопределять в той же области видимости
 
 ### let
-- має блокову область видимості
-- Піднімається, але не можна використовувати до оголошення (тимчасова мертва зона)
-- Не можна перевизначати у тій же області видимості
+- Имеет блочную область видимости
+- Поднимается, но нельзя использовать до объявления (временная мертвая зона)
+- Нельзя переопределять в той же области видимости
 
 ### const
-- має блокову область видимості
-- Піднімається, але не можна використовувати до оголошення
-- Не можна перевизначати значення
-- Для об'єктів та масивів можна змінювати внутрішній вміст
+- Имеет блочную область видимости
+- Поднимается, но нельзя использовать до объявления
+- Нельзя переопределять значение
+- Для объектов и массивов можно изменять внутреннее содержимое
 
 ```javascript
 // var
-function example() { 
-console.log(x); // undefined (hoisting) 
-var x = 10; 
-var x = 20; // Можна перевизначити 
-console.log(x); // 20
+function example() {
+    console.log(x); // undefined (hoisting)
+    var x = 10;
+    var x = 20; // Можно переопределить
+    console.log(x); // 20
 }
 
 // let
-function example2() { 
-// console.log(y); // ReferenceError: Cannot access 'y' before initialization 
-let y = 10; 
-// let y = 20; //SyntaxError: Identifier 'y' already been declared 
-y = 20; // Можна змінити значення 
-console.log(y); // 20 
-
-if (true) { 
-let y = 30; // Інша змінна в іншій області видимості 
-console.log(y); // 30 
-} 
-
-console.log(y); // 20
+function example2() {
+    // console.log(y); // ReferenceError: Cannot access 'y' before initialization
+    let y = 10;
+    // let y = 20; // SyntaxError: Identifier 'y' has already been declared
+    y = 20; // Можно изменить значение
+    console.log(y); // 20
+    
+    if (true) {
+        let y = 30; // Другая переменная в другой области видимости
+        console.log(y); // 30
+    }
+    
+    console.log(y); // 20
 }
 
 // const
-function example3() { 
-const z = 10; 
-// z = 20; // TypeError: Assignment to constant variable 
-
-const obj = {name: "John"}; 
-obj.name = "Jane"; // Можна змінювати властивості об'єкта 
-console.log(obj); // { name: "Jane" } 
-
-// obj = {}; // TypeError: Assignment to constant variable
+function example3() {
+    const z = 10;
+    // z = 20; // TypeError: Assignment to constant variable
+    
+    const obj = { name: "John" };
+    obj.name = "Jane"; // Можно изменять свойства объекта
+    console.log(obj); // { name: "Jane" }
+    
+    // obj = {}; // TypeError: Assignment to constant variable
 }
-````
+```
 
-## Функції
+## Функции
 
-JavaScript функції є об'єктами першого класу і можуть бути:
-- присвоєно змінним
-- Передано як аргументи
-- Повернені з інших функцій
+В JavaScript функции являются объектами первого класса и могут быть:
+- Присвоены переменным
+- Переданы как аргументы
+- Возвращены из других функций
 
-### Види функцій:
+### Виды функций:
 
-#### 1. Оголошення функції (Function Declaration)
+#### 1. Объявление функции (Function Declaration)
 ```javascript
-function add(a, b) { 
-return a + b;
+function add(a, b) {
+    return a + b;
 }
-````
+```
 
-#### 2. Функціональний вираз (Function Expression)
+#### 2. Функциональное выражение (Function Expression)
 ```javascript
-const subtract = function(a, b) { 
-return a - b;
+const subtract = function(a, b) {
+    return a - b;
 };
-````
+```
 
-#### 3. Стрілецькі функції (Arrow Functions)
+#### 3. Стрелочные функции (Arrow Functions)
 ```javascript
 const multiply = (a, b) => a * b;
 
-// Багаторядкові стрілочні функції
-const divide = (a, b) => { 
-if (b === 0) throw new Error("Поділ на нуль"); 
-return a/b;
+// Многострочные стрелочные функции
+const divide = (a, b) => {
+    if (b === 0) throw new Error("Деление на ноль");
+    return a / b;
 };
-````
+```
 
-#### 4. Методи об'єктів
+#### 4. Методы объектов
 ```javascript
-const calculator = { 
-add: function(a, b) { 
-return a + b; 
-}, 
-// Скорочений синтаксис методів (ES6) 
-subtract(a, b) { 
-return a - b; 
-}
+const calculator = {
+    add: function(a, b) {
+        return a + b;
+    },
+    // Сокращенный синтаксис методов (ES6)
+    subtract(a, b) {
+        return a - b;
+    }
 };
-````
+```
 
-#### 5. Конструктори функцій
+#### 5. Конструкторы функций
 ```javascript
-function Person(name, age) { 
-this.name = name; 
-this.age = age; 
-this.greet = function() { 
-return `Привіт, мене звуть ${this.name}`; 
-};
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.greet = function() {
+        return `Привет, меня зовут ${this.name}`;
+    };
 }
 
-const john = New Person ("John", 30);
-````
+const john = new Person("John", 30);
+```
 
-#### 6. Генератори
+#### 6. Генераторы
 ```javascript
-function* idGenerator() { 
-let id = 1; 
-while (true) { 
-yield id++; 
-}
+function* idGenerator() {
+    let id = 1;
+    while (true) {
+        yield id++;
+    }
 }
 
 const gen = idGenerator();
 console.log(gen.next().value); // 1
 console.log(gen.next().value); // 2
-````
+```
 
-### Параметри функцій:
+### Параметры функций:
 
-#### Параметри за замовчуванням
+#### Параметры по умолчанию
 ```javascript
-function greet(name = "Гість") { 
-return `Привіт, ${name}!`;
+function greet(name = "Гость") {
+    return `Привет, ${name}!`;
 }
-````
+```
 
-#### Rest-параметри
+#### Rest-параметры
 ```javascript
-function sum(...numbers) { 
-return numbers.reduce((total, num) => total + num, 0);
+function sum(...numbers) {
+    return numbers.reduce((total, num) => total + num, 0);
 }
-````
+```
 
-#### Деструктуризація параметрів
+#### Деструктуризация параметров
 ```javascript
-function displayPerson({ name, age, job = "Не вказано" }) { 
-console.log(`${name}, ${age} років, ${job}`);
+function displayPerson({ name, age, job = "Не указано" }) {
+    console.log(`${name}, ${age} лет, ${job}`);
 }
 
-displayPerson({ name: "Ганна", age: 28});
-````
+displayPerson({ name: "Анна", age: 28 });
+```
 
-## Об'єкти та ОВП
+## Объекты и ООП
 
-### Створення об'єктів
+### Создание объектов
 
 ```javascript
-// Літерал об'єкта
-const person = { 
-firstName: "John", 
-lastName: "Doe", 
-age: 30, 
-greet() { 
-return `Привіт, мене звуть ${this.firstName} ${this.lastName}`; 
-}
+// Литерал объекта
+const person = {
+    firstName: "John",
+    lastName: "Doe",
+    age: 30,
+    greet() {
+        return `Привет, меня зовут ${this.firstName} ${this.lastName}`;
+    }
 };
 
 // Конструктор Object
-const car = новий Object();
+const car = new Object();
 car.make = "Toyota";
 car.model = "Corolla";
 car.year = 2020;
 
 // Object.create()
-const animal = { 
-type: "Невідомо", 
-makeSound() { 
-console.log("Якийсь звук"); 
-}
+const animal = {
+    type: "Неизвестно",
+    makeSound() {
+        console.log("Какой-то звук");
+    }
 };
 
 const dog = Object.create(animal);
 dog.type = "Собака";
-dog.makeSound = function() { 
-console.log("Гав");
+dog.makeSound = function() {
+    console.log("Гав");
 };
-````
+```
 
-### Властивості об'єктів
+### Свойства объектов
 
 ```javascript
-// Геттери та сетери
-const person = { 
-firstName: "John", 
-lastName: "Doe", 
-get fullName() { 
-return `${this.firstName} ${this.lastName}`; 
-}, 
-set fullName(value) { 
-[this.firstName, this.lastName] = value.split(" "); 
-}
+// Геттеры и сеттеры
+const person = {
+    firstName: "John",
+    lastName: "Doe",
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    },
+    set fullName(value) {
+        [this.firstName, this.lastName] = value.split(" ");
+    }
 };
 
 console.log(person.fullName); // "John Doe"
@@ -285,300 +285,300 @@ console.log(person.firstName); // "Jane"
 
 // Object.defineProperty
 const product = {};
-Object.defineProperty(product, "price", { 
-value: 100, 
-writable: true, 
-enumerable: true, 
-configurable: true
+Object.defineProperty(product, "price", {
+    value: 100,
+    writable: true,
+    enumerable: true,
+    configurable: true
 });
 
-// Дескриптори властивостей
-Object.defineProperty(product, "discount", { 
-get() { 
-return this._discount || 0; 
-}, 
-set(value) { 
-if (value < 0 || value > 100) { 
-throw new Error("Знижка повинна бути від 0 до 100"); 
-} 
-this._discount = value; 
-}
+// Дескрипторы свойств
+Object.defineProperty(product, "discount", {
+    get() {
+        return this._discount || 0;
+    },
+    set(value) {
+        if (value < 0 || value > 100) {
+            throw new Error("Скидка должна быть от 0 до 100");
+        }
+        this._discount = value;
+    }
 });
-````
+```
 
-## Прототипне успадкування
+## Прототипное наследование
 
-У JavaScript успадкування ґрунтується на прототипах, а не на класах (хоча класи в ES6+ – це синтаксичний цукор над прототипами).
+В JavaScript наследование основано на прототипах, а не на классах (хотя классы в ES6+ - это синтаксический сахар над прототипами).
 
 ```javascript
-// Базовий об'єкт
-function Animal(name) { 
-this.name = name;
+// Базовый объект
+function Animal(name) {
+    this.name = name;
 }
 
-Animal.prototype.makeSound = function() { 
-console.log("Якийсь звук");
+Animal.prototype.makeSound = function() {
+    console.log("Какой-то звук");
 };
 
-// Спадкування
-function Dog(name, breed) { 
-Animal.call(this, name); // Виклик конструктора батька 
-this.breed = breed;
+// Наследование
+function Dog(name, breed) {
+    Animal.call(this, name); // Вызов конструктора родителя
+    this.breed = breed;
 }
 
-// Установка прототипу
+// Установка прототипа
 Dog.prototype = Object.create(Animal.prototype);
-Dog.prototype.constructor = Dog; // Відновлення конструктора
+Dog.prototype.constructor = Dog; // Восстановление конструктора
 
-// Перевизначення методу
-Dog.prototype.makeSound = function() { 
-console.log("Гав");
+// Переопределение метода
+Dog.prototype.makeSound = function() {
+    console.log("Гав");
 };
 
-// Додавання нового методу
-Dog.prototype.fetch = function() { 
-console.log(`${this.name} приніс палицю`);
+// Добавление нового метода
+Dog.prototype.fetch = function() {
+    console.log(`${this.name} принес палку`);
 };
 
-const rex = new Dog ("Рекс", "Вівчарка");
+const rex = new Dog("Рекс", "Овчарка");
 rex.makeSound(); // "Гав"
-rex.fetch(); // "Рекс приніс палицю"
+rex.fetch(); // "Рекс принес палку"
 console.log(rex instanceof Dog); // true
 console.log(rex instanceof Animal); // true
-````
+```
 
-## Класи в ES6+
+## Классы в ES6+
 
-ES6 ввів синтаксис класів, який полегшує роботу з прототипним успадкуванням.
+ES6 ввел синтаксис классов, который упрощает работу с прототипным наследованием.
 
 ```javascript
-// Базовий клас
-class Animal { 
-constructor(name) { 
-this.name = name; 
-} 
-
-makeSound() { 
-console.log("Якийсь звук"); 
-} 
-
-//Статичний метод 
-static isAnimal(obj) { 
-return obj instanceof Animal; 
-}
-}
-
-// Спадкування
-class Dog extends Animal { 
-constructor(name, breed) { 
-super(name); // Виклик конструктора батька 
-this.breed = breed; 
-} 
-
-// Перевизначення методу 
-makeSound() { 
-console.log("Гав"); 
-} 
-
-//Новий метод 
-fetch() { 
-console.log(`${this.name} приніс палицю`); 
-}
+// Базовый класс
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    makeSound() {
+        console.log("Какой-то звук");
+    }
+    
+    // Статический метод
+    static isAnimal(obj) {
+        return obj instanceof Animal;
+    }
 }
 
-const rex = new Dog ("Рекс", "Вівчарка");
+// Наследование
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name); // Вызов конструктора родителя
+        this.breed = breed;
+    }
+    
+    // Переопределение метода
+    makeSound() {
+        console.log("Гав");
+    }
+    
+    // Новый метод
+    fetch() {
+        console.log(`${this.name} принес палку`);
+    }
+}
+
+const rex = new Dog("Рекс", "Овчарка");
 rex.makeSound(); // "Гав"
 console.log(Animal.isAnimal(rex)); // true
-````
+```
 
-### Приватні поля та методи (ES2020+)
+### Приватные поля и методы (ES2020+)
 
 ```javascript
-class BankAccount { 
-// Приватне поле 
-# Balance = 0; 
-
-// Приватний метод 
-#validateAmount(amount) { 
-if (amount <= 0) { 
-throw new Error("Сума має бути позитивною"); 
-} 
-} 
-
-constructor(owner, initialBalance = 0) { 
-this.owner = owner; 
-if (initialBalance > 0) { 
-this.#balance = initialBalance; 
-} 
-} 
-
-deposit(amount) { 
-this.#validateAmount(amount); 
-this.#balance += amount; 
-return this.#balance; 
-} 
-
-withdraw(amount) { 
-this.#validateAmount(amount); 
-if (amount > this.#balance) { 
-throw new Error("Недостатньо коштів"); 
-} 
-this.#balance -= amount; 
-return this.#balance; 
-} 
-
-get balance() { 
-return this.#balance; 
-}
+class BankAccount {
+    // Приватное поле
+    #balance = 0;
+    
+    // Приватный метод
+    #validateAmount(amount) {
+        if (amount <= 0) {
+            throw new Error("Сумма должна быть положительной");
+        }
+    }
+    
+    constructor(owner, initialBalance = 0) {
+        this.owner = owner;
+        if (initialBalance > 0) {
+            this.#balance = initialBalance;
+        }
+    }
+    
+    deposit(amount) {
+        this.#validateAmount(amount);
+        this.#balance += amount;
+        return this.#balance;
+    }
+    
+    withdraw(amount) {
+        this.#validateAmount(amount);
+        if (amount > this.#balance) {
+            throw new Error("Недостаточно средств");
+        }
+        this.#balance -= amount;
+        return this.#balance;
+    }
+    
+    get balance() {
+        return this.#balance;
+    }
 }
 
 const account = new BankAccount("John", 1000);
 console.log(account.balance); // 1000
 account.deposit(500);
 console.log(account.balance); // 1500
-// console.log(account.#balance); // SyntaxError: Приватна філія '#balance' повинна бути зафіксована в an enclosing class
-````
+// console.log(account.#balance); // SyntaxError: Private field '#balance' must be declared in an enclosing class
+```
 
-### Статичні поля та методи
+### Статические поля и методы
 
 ```javascript
-class MathUtils { 
-//Статичне поле 
-static PI = 3.14159; 
-
-//Статичний метод 
-static square(x) { 
-return x * x; 
-} 
-
-// Статичний приватний метод 
-static #calculateArea(radius) { 
-return this.PI * radius * radius; 
-} 
-
-static circleArea(radius) { 
-if (radius <= 0) { 
-throw new Error("Радіус має бути позитивним"); 
-} 
-return this.#calculateArea(radius); 
-}
+class MathUtils {
+    // Статическое поле
+    static PI = 3.14159;
+    
+    // Статический метод
+    static square(x) {
+        return x * x;
+    }
+    
+    // Статический приватный метод
+    static #calculateArea(radius) {
+        return this.PI * radius * radius;
+    }
+    
+    static circleArea(radius) {
+        if (radius <= 0) {
+            throw new Error("Радиус должен быть положительным");
+        }
+        return this.#calculateArea(radius);
+    }
 }
 
 console.log(MathUtils.PI); // 3.14159
 console.log(MathUtils.square(5)); // 25
 console.log(MathUtils.circleArea(2)); // ~12.57
-````
+```
 
-## Області видимості та контекст this
+## Области видимости и контекст this
 
-### Області видимості
+### Области видимости
 
-1. **Глобальна область** - змінні, доступні скрізь
-2. **Функціональна область** - змінні, доступні всередині функції
-3. **Блочна область** - змінні, доступні всередині блоку (let, const)
+1. **Глобальная область** - переменные, доступные везде
+2. **Функциональная область** - переменные, доступные внутри функции
+3. **Блочная область** - переменные, доступные внутри блока (let, const)
 
 ```javascript
-// Глобальна область
-const globalVar = "Я глобальна";
+// Глобальная область
+const globalVar = "Я глобальная";
 
-function outerFunction() { 
-// Функціональна область 
-const outerVar = "Я із зовнішньої функції"; 
-
-function innerFunction() { 
-// Вкладена функціональна область 
-const innerVar = "Я із внутрішньої функції"; 
-console.log(globalVar); // Доступна 
-console.log(outerVar); // Доступна 
-console.log(innerVar); // Доступна 
-} 
-
-innerFunction(); 
-console.log(globalVar); // Доступна 
-console.log(outerVar); // Доступна 
-// console.log(innerVar); // ReferenceError: innerVar is not defined
+function outerFunction() {
+    // Функциональная область
+    const outerVar = "Я из внешней функции";
+    
+    function innerFunction() {
+        // Вложенная функциональная область
+        const innerVar = "Я из внутренней функции";
+        console.log(globalVar); // Доступна
+        console.log(outerVar);  // Доступна
+        console.log(innerVar);  // Доступна
+    }
+    
+    innerFunction();
+    console.log(globalVar); // Доступна
+    console.log(outerVar);  // Доступна
+    // console.log(innerVar);  // ReferenceError: innerVar is not defined
 }
 
-if (true) { 
-//Блочна область 
-let blockVar = "Я з блоку"; 
-console.log(blockVar); // Доступна
+if (true) {
+    // Блочная область
+    let blockVar = "Я из блока";
+    console.log(blockVar); // Доступна
 }
 // console.log(blockVar); // ReferenceError: blockVar is not defined
-````
+```
 
 ### Контекст this
 
-Значення `this` залежить від того, як викликається функція:
+Значение `this` зависит от того, как вызывается функция:
 
-1. **Глобальний контекст**: `this` вказує на глобальний об'єкт (у браузері - `window`, в Node.js - `global`)
-2. **Метод об'єкта**: `this` вказує на об'єкт, у якого викликаний метод
-3. **Конструктор**: `this` вказує на створюваний екземпляр
-4. **Явна вказівка**: через `call`, `apply`, `bind`
-5. **Стрілкові функції**: `this` береться із зовнішньої (лексичної) області видимості
+1. **Глобальный контекст**: `this` указывает на глобальный объект (в браузере - `window`, в Node.js - `global`)
+2. **Метод объекта**: `this` указывает на объект, у которого вызван метод
+3. **Конструктор**: `this` указывает на создаваемый экземпляр
+4. **Явное указание**: через `call`, `apply`, `bind`
+5. **Стрелочные функции**: `this` берется из внешней (лексической) области видимости
 
 ```javascript
-// Глобальний контекст
-console.log(this); // window у браузері
+// Глобальный контекст
+console.log(this); // window в браузере
 
-// Метод об'єкта
-const user = { 
-name: "John", 
-greet() { 
-console.log(`Привіт, я ${this.name}`); 
-}
+// Метод объекта
+const user = {
+    name: "John",
+    greet() {
+        console.log(`Привет, я ${this.name}`);
+    }
 };
-user.greet(); // "Привіт, я John"
+user.greet(); // "Привет, я John"
 
-// Втрата контексту
+// Потеря контекста
 const greet = user.greet;
-// greet(); // "Привіт, я undefined" (this = window)
+// greet(); // "Привет, я undefined" (this = window)
 
 // Конструктор
-function User(name) { 
-this.name = name; 
-this.sayHi = function() { 
-console.log(`Привіт, я ${this.name}`); 
-};
+function User(name) {
+    this.name = name;
+    this.sayHi = function() {
+        console.log(`Привет, я ${this.name}`);
+    };
 }
 const john = new User("John");
-john.sayHi(); // "Привіт, я John"
+john.sayHi(); // "Привет, я John"
 
-// Стрілецькі функції зберігають this
-const obj = { 
-name: "Object", 
-regularMethod: function() { 
-console.log(`Regular: ${this.name}`); 
-
-// Це з regularMethod 
-setTimeout(() => { 
-console.log(`Arrow: ${this.name}`); 
-}, 100); 
-
-// this = window 
-setTimeout(function() { 
-console.log(`Regular timeout: ${this?.name || 'undefined'}`); 
-}, 100); 
-}
+// Стрелочные функции сохраняют this
+const obj = {
+    name: "Object",
+    regularMethod: function() {
+        console.log(`Regular: ${this.name}`);
+        
+        // this из regularMethod
+        setTimeout(() => {
+            console.log(`Arrow: ${this.name}`);
+        }, 100);
+        
+        // this = window
+        setTimeout(function() {
+            console.log(`Regular timeout: ${this?.name || 'undefined'}`);
+        }, 100);
+    }
 };
 obj.regularMethod();
 // "Regular: Object"
 // "Arrow: Object"
 // "Regular timeout: undefined"
-````
+```
 
-## Замикання
+## Замыкания
 
-Замикання - це функція, яка запам'ятовує свою лексичну область видимості, навіть коли виконується поза цією областю.
+Замыкание - это функция, которая запоминает свою лексическую область видимости, даже когда выполняется вне этой области.
 
 ```javascript
-// Просте замикання
-function createCounter() { 
-let count = 0; 
-
-return function() { 
-return ++count; 
-};
+// Простое замыкание
+function createCounter() {
+    let count = 0;
+    
+    return function() {
+        return ++count;
+    };
 }
 
 const counter = createCounter();
@@ -586,11 +586,11 @@ console.log(counter()); // 1
 console.log(counter()); // 2
 console.log(counter()); // 3
 
-// Замикання з параметрами
-function createMultiplier(factor) { 
-return function(number) { 
-return number * factor; 
-};
+// Замыкание с параметрами
+function createMultiplier(factor) {
+    return function(number) {
+        return number * factor;
+    };
 }
 
 const double = createMultiplier(2);
@@ -599,26 +599,26 @@ const triple = createMultiplier(3);
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
 
-// Практичне застосування: приватні змінні
-function createBankAccount(initialBalance = 0) { 
-let balance = initialBalance; 
-
-return { 
-deposit(amount) { 
-balance + = amount; 
-return balance; 
-}, 
-withdraw(amount) { 
-if (amount > balance) { 
-throw new Error("Недостатньо коштів"); 
-} 
-balance -= amount; 
-return balance; 
-}, 
-getBalance() { 
-return balance; 
-} 
-};
+// Практическое применение: приватные переменные
+function createBankAccount(initialBalance = 0) {
+    let balance = initialBalance;
+    
+    return {
+        deposit(amount) {
+            balance += amount;
+            return balance;
+        },
+        withdraw(amount) {
+            if (amount > balance) {
+                throw new Error("Недостаточно средств");
+            }
+            balance -= amount;
+            return balance;
+        },
+        getBalance() {
+            return balance;
+        }
+    };
 }
 
 const account = createBankAccount(100);
@@ -626,1380 +626,1380 @@ account.deposit(50);
 console.log(account.getBalance()); // 150
 account.withdraw(30);
 console.log(account.getBalance()); // 120
-// balance недоступний ззовні
-````
+// balance недоступен извне
+```
 
-## Методи функцій: bind, call, apply
+## Методы функций: bind, call, apply
 
-Ці методи дозволяють явно вказати значення this при виклику функції.
+Эти методы позволяют явно указать значение `this` при вызове функции.
 
 ### call
 
-Викликає функцію із зазначеним значенням `this` та аргументами, перерахованими через кому.
+Вызывает функцию с указанным значением `this` и аргументами, перечисленными через запятую.
 
 ```javascript
-function greet(greeting, punctuation) { 
-console.log(`${greeting}, ${this.name}${punctuation}`);
+function greet(greeting, punctuation) {
+    console.log(`${greeting}, ${this.name}${punctuation}`);
 }
 
-const person = {name: "John"};
+const person = { name: "John" };
 
-greet.call(person, "Привіт", "!"); // "Привіт, John!"
-````
+greet.call(person, "Привет", "!"); // "Привет, John!"
+```
 
-### Apply
+### apply
 
-Схожий на call, але приймає аргументи у вигляді масиву.
+Похож на `call`, но принимает аргументы в виде массива.
 
 ```javascript
-function greet(greeting, punctuation) { 
-console.log(`${greeting}, ${this.name}${punctuation}`);
+function greet(greeting, punctuation) {
+    console.log(`${greeting}, ${this.name}${punctuation}`);
 }
 
-const person = {name: "John"};
+const person = { name: "John" };
 
-greet.apply(person, ["Здрастуйте", "."]); // "Доброго дня, John."
-````
+greet.apply(person, ["Здравствуйте", "."]);  // "Здравствуйте, John."
+```
 
 ### bind
 
-Створює нову функцію з прив'язаним значенням `this` і, опціонально, із встановленими аргументами.
+Создает новую функцию с привязанным значением `this` и, опционально, с предустановленными аргументами.
 
 ```javascript
-function greet(greeting, punctuation) { 
-console.log(`${greeting}, ${this.name}${punctuation}`);
+function greet(greeting, punctuation) {
+    console.log(`${greeting}, ${this.name}${punctuation}`);
 }
 
-const person = {name: "John"};
+const person = { name: "John" };
 
 const greetJohn = greet.bind(person);
-greetJohn("Привіт", "!"); // "Привіт, John!"
+greetJohn("Привет", "!"); // "Привет, John!"
 
-const sayHiToJohn = greet.bind(person, "Привіт");
-sayHiToJohn("?"); // "Привіт, John?"
+const sayHiToJohn = greet.bind(person, "Привет");
+sayHiToJohn("?"); // "Привет, John?"
 
-const sayHiToJohnExcitedly = greet.bind(person, "Привіт", "!!!");
-sayHiToJohnExcitedly(); // "Привіт, John!!!"
-````
+const sayHiToJohnExcitedly = greet.bind(person, "Привет", "!!!");
+sayHiToJohnExcitedly(); // "Привет, John!!!"
+```
 
-## Асинхронне програмування
+## Асинхронное программирование
 
 ### Callbacks
 
-Найстаріший підхід до асинхронного програмування JavaScript.
+Самый старый подход к асинхронному программированию в JavaScript.
 
 ```javascript
-function fetchData(callback) { 
-setTimeout(() => { 
-const data = { name: "John", age: 30}; 
-callback(null, data); 
-}, 1000);
+function fetchData(callback) {
+    setTimeout(() => {
+        const data = { name: "John", age: 30 };
+        callback(null, data);
+    }, 1000);
 }
 
-fetchData((error, data) => { 
-if (error) { 
-console.error("Помилка:", error); 
-return; 
-} 
-console.log("Дані:", data);
+fetchData((error, data) => {
+    if (error) {
+        console.error("Ошибка:", error);
+        return;
+    }
+    console.log("Данные:", data);
 });
-````
+```
 
 ### Promises
 
-Promises (обіцянки) – це об'єкти, що становлять результат асинхронної операції.
+Promises (обещания) - это объекты, представляющие результат асинхронной операции.
 
 ```javascript
-function fetchData() { 
-return new Promise((resolve, reject) => { 
-setTimeout(() => { 
-const success = true; 
-if (success) { 
-resolve({ name: "John", age: 30}); 
-} else { 
-reject(new Error("Не вдалося отримати дані")); 
-} 
-}, 1000); 
-});
+function fetchData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const success = true;
+            if (success) {
+                resolve({ name: "John", age: 30 });
+            } else {
+                reject(new Error("Не удалось получить данные"));
+            }
+        }, 1000);
+    });
 }
 
-fetchData() 
-.then(data => { 
-console.log("Дані:", data); 
-return data.name; 
-}) 
-.then(name => { 
-console.log("Ім'я:", name); 
-}) 
-.catch(error => { 
-console.error("Помилка:", error); 
-}) 
-.finally(() => { 
-console.log("Операція завершена"); 
-});
-
-// Паралельне виконання промісів
-Promise.all([ 
-fetchData(), 
 fetchData()
-]) 
-.then(([data1, data2]) => { 
-console.log("Всі дані:", data1, data2); 
-}) 
-.catch(error => { 
-console.error("Хоч би один проміс відхилений:", error); 
-});
+    .then(data => {
+        console.log("Данные:", data);
+        return data.name;
+    })
+    .then(name => {
+        console.log("Имя:", name);
+    })
+    .catch(error => {
+        console.error("Ошибка:", error);
+    })
+    .finally(() => {
+        console.log("Операция завершена");
+    });
 
-// Виконання першого успішного промісу
-Promise.race([ 
-fetchData(), 
-new Promise((resolve) => setTimeout(() => resolve("timeout"), 500))
-]) 
-.then(result => { 
-console.log("Перший результат:", result); 
-});
+// Параллельное выполнение промисов
+Promise.all([
+    fetchData(),
+    fetchData()
+])
+    .then(([data1, data2]) => {
+        console.log("Все данные:", data1, data2);
+    })
+    .catch(error => {
+        console.error("Хотя бы один промис отклонен:", error);
+    });
 
-// Виконання всіх промісів (без відхилення за помилки)
-Promise.allSettled([ 
-fetchData(), 
-Promise.reject(new Error("Помилка"))
-]) 
-.then(results => { 
-results.forEach(result => { 
-if (result.status === "fulfilled") { 
-console.log("Успішно:", result.value); 
-} else { 
-console.log("Помилка:", result.reason); 
-} 
-}); 
-});
+// Выполнение первого успешного промиса
+Promise.race([
+    fetchData(),
+    new Promise((resolve) => setTimeout(() => resolve("timeout"), 500))
+])
+    .then(result => {
+        console.log("Первый результат:", result);
+    });
 
-// Повертає перший успішний проміс
-Promise.any([ 
-Promise.reject(new Error("Помилка 1")), 
-fetchData(), 
-Promise.reject(new Error("Помилка 2"))
-]) 
-.then(result => { 
-console.log("Перший успішний результат:", result); 
-}) 
-.catch(error => { 
-console.log("Усі проміси відхилені:", error); 
-});
-````
+// Выполнение всех промисов (без отклонения при ошибке)
+Promise.allSettled([
+    fetchData(),
+    Promise.reject(new Error("Ошибка"))
+])
+    .then(results => {
+        results.forEach(result => {
+            if (result.status === "fulfilled") {
+                console.log("Успешно:", result.value);
+            } else {
+                console.log("Ошибка:", result.reason);
+            }
+        });
+    });
+
+// Возвращает первый успешный промис
+Promise.any([
+    Promise.reject(new Error("Ошибка 1")),
+    fetchData(),
+    Promise.reject(new Error("Ошибка 2"))
+])
+    .then(result => {
+        console.log("Первый успешный результат:", result);
+    })
+    .catch(error => {
+        console.log("Все промисы отклонены:", error);
+    });
+```
 
 ### Async/Await
 
-Синтаксичний цукор над промісами робить асинхронний код схожим на синхронний.
+Синтаксический сахар над промисами, делающий асинхронный код похожим на синхронный.
 
 ```javascript
-async function getData() { 
-try { 
-const data = await fetchData(); 
-console.log("Дані:", data); 
-
-const name = data.name; 
-console.log("Ім'я:", name); 
-
-return name; 
-} catch (error) { 
-console.error("Помилка:", error); 
-throw error; // Прокидаємо помилку далі 
-} finally { 
-console.log("Операція завершена"); 
+async function getData() {
+    try {
+        const data = await fetchData();
+        console.log("Данные:", data);
+        
+        const name = data.name;
+        console.log("Имя:", name);
+        
+        return name;
+    } catch (error) {
+        console.error("Ошибка:", error);
+        throw error; // Пробрасываем ошибку дальше
+    } finally {
+        console.log("Операция завершена");
+    }
 }
+
+// Вызов асинхронной функции
+getData()
+    .then(name => {
+        console.log("Итоговое имя:", name);
+    })
+    .catch(error => {
+        console.error("Ошибка в getData:", error);
+    });
+
+// Параллельное выполнение с async/await
+async function getMultipleData() {
+    try {
+        // Запускаем оба запроса параллельно
+        const dataPromise1 = fetchData();
+        const dataPromise2 = fetchData();
+        
+        // Ждем выполнения обоих
+        const [data1, data2] = await Promise.all([dataPromise1, dataPromise2]);
+        
+        console.log("Данные 1:", data1);
+        console.log("Данные 2:", data2);
+    } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+    }
 }
+```
 
-// Виклик асинхронної функції
-getData() 
-.then(name => { 
-console.log("Підсумкове ім'я:", name); 
-}) 
-.catch(error => { 
-console.error("Помилка getData:", error); 
-});
+## Коллекции
 
-// Паралельне виконання з async/await
-async function getMultipleData() { 
-try { 
-// Запускаємо обидва запити паралельно 
-const dataPromise1 = fetchData(); 
-const dataPromise2 = fetchData(); 
-
-// Чекаємо на виконання обох 
-const [data1, data2] = await Promise.all([dataPromise1, dataPromise2]); 
-
-console.log("Дані 1:", data1); 
-console.log("Дані 2:", data2); 
-} catch (error) { 
-console.error("Помилка при отриманні даних:", error); 
-}
-}
-````
-
-## Колекції
-
-### Array (Массиви)
+### Array (Массивы)
 
 ```javascript
-// Створення масиву
+// Создание массива
 const numbers = [1, 2, 3, 4, 5];
-const empty = новий Array(5); //[empty × 5]
+const empty = new Array(5); // [empty × 5]
 const filled = Array(5).fill(0); // [0, 0, 0, 0, 0]
 
-// Доступ до елементів
+// Доступ к элементам
 console.log(numbers[0]); // 1
 numbers[1] = 10;
 console.log(numbers); // [1, 10, 3, 4, 5]
 
-// Основні методи
-numbers.push(6); // Додає до кінця
-numbers.pop(); // Видаляє з кінця
-numbers.unshift(0); // Додає на початок
-numbers.shift(); // Видаляє з початку
-numbers.splice(2, 1, 'a', 'b'); // Видаляє 1 елемент з індексу 2 та вставляє нові
-numbers.slice(1, 3); // Повертає новий масив [індекс1, індекс2)
-numbers.concat([7, 8]); // Об'єднує масиви
+// Основные методы
+numbers.push(6); // Добавляет в конец
+numbers.pop(); // Удаляет с конца
+numbers.unshift(0); // Добавляет в начало
+numbers.shift(); // Удаляет с начала
+numbers.splice(2, 1, 'a', 'b'); // Удаляет 1 элемент с индекса 2 и вставляет новые
+numbers.slice(1, 3); // Возвращает новый массив [индекс1, индекс2)
+numbers.concat([7, 8]); // Объединяет массивы
 
-// Пошук елементів
-numbers.indexOf(3); // Індекс першого входження або -1
-numbers.lastIndexOf(3); // Індекс останнього входження або -1
+// Поиск элементов
+numbers.indexOf(3); // Индекс первого вхождения или -1
+numbers.lastIndexOf(3); // Индекс последнего вхождения или -1
 numbers.includes(3); // true/false
-numbers.find(x => x > 3); // Перший елемент, що задовольняє умову
-numbers.findIndex(x => x > 3); // Індекс першого елемента, що задовольняє умову
+numbers.find(x => x > 3); // Первый элемент, удовлетворяющий условию
+numbers.findIndex(x => x > 3); // Индекс первого элемента, удовлетворяющего условию
 
-// Ітерація
+// Итерация
 numbers.forEach(x => console.log(x));
 
-// Перетворення
-const doubled = numbers.map (x => x * 2);
+// Преобразование
+const doubled = numbers.map(x => x * 2);
 const evens = numbers.filter(x => x % 2 === 0);
 const sum = numbers.reduce((acc, x) => acc + x, 0);
 const allPositive = numbers.every(x => x > 0);
 const someNegative = numbers.some(x => x < 0);
 
-// Сортування
-numbers.sort((a, b) => a - b); // За зростанням
-numbers.reverse(); // Звернення порядку
+// Сортировка
+numbers.sort((a, b) => a - b); // По возрастанию
+numbers.reverse(); // Обращение порядка
 
-// Перетворення на рядок
+// Преобразование в строку
 numbers.join(', '); // "1, 10, 3, 4, 5"
 
-// Деструктуризація
-const [first, second, ... rest] = numbers;
+// Деструктуризация
+const [first, second, ...rest] = numbers;
 
 // Spread оператор
-const numbersCopy=[...numbers];
+const numbersCopy = [...numbers];
 
-// Нові методи (ES2022+)
-numbers.at(-1); // Останній елемент (5)
-````
+// Новые методы (ES2022+)
+numbers.at(-1); // Последний элемент (5)
+```
 
 ### Map
 
-Колекція пар ключ-значення з довільними типами ключів.
+Коллекция пар ключ-значение с произвольными типами ключей.
 
 ```javascript
-// Створення Map
-const userRoles = New Map();
+// Создание Map
+const userRoles = new Map();
 
-// Додавання елементів
+// Добавление элементов
 userRoles.set('john', 'admin');
 userRoles.set('jane', 'editor');
 userRoles.set('bob', 'viewer');
 
-// Ініціалізація з масивом пар
-const userRoles2 = New Map([ 
-['john', 'admin'], 
-['jane', 'editor'], 
-['bob', 'viewer']
+// Инициализация с массивом пар
+const userRoles2 = new Map([
+    ['john', 'admin'],
+    ['jane', 'editor'],
+    ['bob', 'viewer']
 ]);
 
-// Отримання значень
+// Получение значений
 console.log(userRoles.get('john')); // "admin"
 console.log(userRoles.has('jane')); // true
 console.log(userRoles.size); // 3
 
-// Видалення
+// Удаление
 userRoles.delete('bob');
-//userRoles.clear(); // Видаляє всі елементи
+// userRoles.clear(); // Удаляет все элементы
 
-// Ітерація
-for (const [user, role] of userRoles) { 
-console.log(`${user}: ${role}`);
+// Итерация
+for (const [user, role] of userRoles) {
+    console.log(`${user}: ${role}`);
 }
 
-userRoles.forEach((role, user) => { 
-console.log(`${user}: ${role}`);
+userRoles.forEach((role, user) => {
+    console.log(`${user}: ${role}`);
 });
 
-// Отримання ключів, значень, пар
+// Получение ключей, значений, пар
 const users = [...userRoles.keys()];
 const roles = [...userRoles.values()];
 const entries = [...userRoles.entries()];
 
-// Об'єкти як ключі
-const userMap = New Map();
-const user1 = {name: 'John'};
-const user2 = {name: 'Jane'};
+// Объекты как ключи
+const userMap = new Map();
+const user1 = { name: 'John' };
+const user2 = { name: 'Jane' };
 
 userMap.set(user1, 'admin');
 userMap.set(user2, 'editor');
 
 console.log(userMap.get(user1)); // "admin"
-console.log(userMap.get({name: 'John'})); // undefined (інший об'єкт)
-````
+console.log(userMap.get({ name: 'John' })); // undefined (другой объект)
+```
 
 ### Set
 
-Колекція унікальних значень будь-якого типу.
+Коллекция уникальных значений любого типа.
 
 ```javascript
-// Створення Set
+// Создание Set
 const uniqueNumbers = new Set([1, 2, 3, 3, 4, 4, 5]);
 console.log(uniqueNumbers); // Set(5) {1, 2, 3, 4, 5}
 
-// Додавання елементів
+// Добавление элементов
 uniqueNumbers.add(6);
-uniqueNumbers.add(1); // Ігнорується, т.к. 1 вже є
+uniqueNumbers.add(1); // Игнорируется, т.к. 1 уже есть
 
-// Перевірка наявності
+// Проверка наличия
 console.log(uniqueNumbers.has(3)); // true
 console.log(uniqueNumbers.size); // 6
 
-// Видалення
+// Удаление
 uniqueNumbers.delete(4);
-// uniqueNumbers.clear(); // Видаляє всі елементи
+// uniqueNumbers.clear(); // Удаляет все элементы
 
-// Ітерація
-for (const num of uniqueNumbers) { 
-console.log(num);
+// Итерация
+for (const num of uniqueNumbers) {
+    console.log(num);
 }
 
-uniqueNumbers.forEach(num => { 
-console.log(num);
+uniqueNumbers.forEach(num => {
+    console.log(num);
 });
 
-// Перетворення на масив
-const numbersArray = [... uniqueNumbers];
+// Преобразование в массив
+const numbersArray = [...uniqueNumbers];
 
-// Практичне застосування: видалення дублікатів із масиву
+// Практическое применение: удаление дубликатов из массива
 const withDuplicates = [1, 2, 2, 3, 4, 4, 5];
 const withoutDuplicates = [...new Set(withDuplicates)];
-````
+```
 
-### WeakMap та WeakSet
+### WeakMap и WeakSet
 
-Спеціальні версії Map і Set із "слабкими" посиланнями на об'єкти.
+Специальные версии Map и Set с "слабыми" ссылками на объекты.
 
 ```javascript
 // WeakMap
-const weakMap = новий WeakMap();
-let obj = {name: "John"};
+const weakMap = new WeakMap();
+let obj = { name: "John" };
 
 weakMap.set(obj, "metadata");
 console.log(weakMap.get(obj)); // "metadata"
 
-obj = null; // Тепер об'єкт може бути зібраний збирачем сміття
+obj = null; // Теперь объект может быть собран сборщиком мусора
 
 // WeakSet
-const weakSet = новий WeakSet();
-let user = {id: 1};
+const weakSet = new WeakSet();
+let user = { id: 1 };
 
 weakSet.add(user);
 console.log(weakSet.has(user)); // true
 
-user = null; // Тепер об'єкт може бути зібраний збирачем сміття
+user = null; // Теперь объект может быть собран сборщиком мусора
 
-// Відмінності від Map та Set:
-// 1. Ключами може бути лише об'єкти
-// 2. Немає методів keys(), values(), entries(), size, forEach()
-// 3. Не можна перебрати вміст
-// 4. Об'єкти видаляються автоматично за відсутності інших посилань
-````
+// Отличия от Map и Set:
+// 1. Ключами могут быть только объекты
+// 2. Нет методов keys(), values(), entries(), size, forEach()
+// 3. Нельзя перебрать содержимое
+// 4. Объекты удаляются автоматически при отсутствии других ссылок
+```
 
-### Array Buffer і Typed Arrays
+### Array Buffer и Typed Arrays
 
-Для роботи з бінарними даними.
+Для работы с бинарными данными.
 
 ```javascript
-// ArrayBuffer - безперервна область пам'яті фіксованої довжини
-const buffer = новий ArrayBuffer(16); // 16 байт
+// ArrayBuffer - непрерывная область памяти фиксированной длины
+const buffer = new ArrayBuffer(16); // 16 байт
 
-// TypedArray - подання ArrayBuffer як масиву певного типу
-const int32View = новий Int32Array(buffer);
+// TypedArray - представление ArrayBuffer как массива определенного типа
+const int32View = new Int32Array(buffer);
 int32View[0] = 42;
 console.log(int32View[0]); // 42
 
-// Різні уявлення одного буфера
-const int8View = новий Int8Array(buffer);
-console.log(int8View[0]); // 42 (молодший байт від 42)
+// Разные представления одного буфера
+const int8View = new Int8Array(buffer);
+console.log(int8View[0]); // 42 (младший байт от 42)
 
-// Типи типізованих масивів:
+// Типы типизированных массивов:
 // Int8Array, Uint8Array, Uint8ClampedArray
 // Int16Array, Uint16Array
 // Int32Array, Uint32Array
 // Float32Array, Float64Array
 // BigInt64Array, BigUint64Array
-````
+```
 
-## Обробка винятків
+## Обработка исключений
 
 ```javascript
 // try-catch-finally
-try { 
-// Код, який може спричинити помилку 
-const result = riskyOperation(); 
-console.log(result);
-} catch (error) { 
-// Обробка помилки 
-console.error("Відбулася помилка:", error.message); 
-
-// Можна перевірити тип помилки 
-if (error instanceof TypeError) { 
-console.error("Помилка типу"); 
-} else if (error instanceof ReferenceError) { 
-console.error("Помилка посилання"); 
-}
-} finally { 
-// Виконується завжди, незалежно від помилки 
-console.log("Завершення операції");
-}
-
-// Створення власних помилок
-class ValidationError extends Error { 
-constructor(message) { 
-super(message); 
-this.name = "ValidationError"; 
-}
+try {
+    // Код, который может вызвать ошибку
+    const result = riskyOperation();
+    console.log(result);
+} catch (error) {
+    // Обработка ошибки
+    console.error("Произошла ошибка:", error.message);
+    
+    // Можно проверить тип ошибки
+    if (error instanceof TypeError) {
+        console.error("Ошибка типа");
+    } else if (error instanceof ReferenceError) {
+        console.error("Ошибка ссылки");
+    }
+} finally {
+    // Выполняется всегда, независимо от ошибки
+    console.log("Завершение операции");
 }
 
-function validateUser(user) { 
-if (!user.name) { 
-throw new ValidationError("Ім'я користувача обов'язково"); 
-} 
-if (user.age < 18) { 
-throw new ValidationError("Користувач повинен бути старше 18 років"); 
-}
-}
-
-try { 
-validateUser({ name: "John", age: 16});
-} catch (error) { 
-if (error instanceof ValidationError) { 
-console.error("Помилка валідації:", error.message); 
-} else { 
-console.error("Невідома помилка:", error); 
-throw error; // Прокидаємо невідомі помилки далі 
-}
+// Создание собственных ошибок
+class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ValidationError";
+    }
 }
 
-// Асинхронна обробка помилок
-async function fetchData() { 
-try { 
-const response = await fetch('https://api.example.com/data'); 
-if (!response.ok) { 
-throw new Error(`HTTP error! status: ${response.status}`); 
-} 
-const data = await response.json(); 
-return data; 
-} catch (error) { 
-console.error("Помилка при отриманні даних:", error); 
-throw error; // Прокидаємо помилку далі 
+function validateUser(user) {
+    if (!user.name) {
+        throw new ValidationError("Имя пользователя обязательно");
+    }
+    if (user.age < 18) {
+        throw new ValidationError("Пользователь должен быть старше 18 лет");
+    }
 }
+
+try {
+    validateUser({ name: "John", age: 16 });
+} catch (error) {
+    if (error instanceof ValidationError) {
+        console.error("Ошибка валидации:", error.message);
+    } else {
+        console.error("Неизвестная ошибка:", error);
+        throw error; // Пробрасываем неизвестные ошибки дальше
+    }
 }
-````
 
-## Управління пам'яттю та складання сміття
+// Асинхронная обработка ошибок
+async function fetchData() {
+    try {
+        const response = await fetch('https://api.example.com/data');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+        throw error; // Пробрасываем ошибку дальше
+    }
+}
+```
 
-JavaScript автоматично керує пам'яттю за допомогою збирача сміття, який звільняє пам'ять, зайняту об'єктами, коли вони стають недоступними.
+## Управление памятью и сборка мусора
+
+JavaScript автоматически управляет памятью с помощью сборщика мусора, который освобождает память, занятую объектами, когда они становятся недоступными.
 
 ```javascript
-// Створення об'єкта
-let obj = {data: "some data", size: 1024};
+// Создание объекта
+let obj = { data: "some data", size: 1024 };
 
-// Об'єкт доступний через змінну obj
+// Объект доступен через переменную obj
 console.log(obj.data);
 
-// Перезаписуємо посилання
+// Перезаписываем ссылку
 obj = null;
 
-// Тепер вихідний об'єкт недоступний і може бути зібраний збирачем сміття
-````
+// Теперь исходный объект недоступен и может быть собран сборщиком мусора
+```
 
-### Витоку пам'яті
+### Утечки памяти
 
-Найпоширеніші причини витоків пам'яті:
+Распространенные причины утечек памяти:
 
-1. **Небажані замикання**
-
-```javascript
-function createLeak() { 
-const largeData = новий Array(1000000).fill('x'); 
-
-return function() { 
-// Використовує лише один елемент, але зберігає всю структуру 
-console.log(largeData[0]); 
-};
-}
-
-const leakyFunction = createLeak(); // largeData залишається в пам'яті
-````
-
-2. **Забуті обробники подій**
+1. **Нежелательные замыкания**
 
 ```javascript
-function setupHandler() { 
-const largeData = новий Array(1000000).fill('x'); 
-
-document.getElementById('button').addEventListener('click', function() { 
-// Обробник зберігає посилання на largeData 
-console.log(largeData[0]); 
-});
+function createLeak() {
+    const largeData = new Array(1000000).fill('x');
+    
+    return function() {
+        // Использует только один элемент, но хранит всю структуру
+        console.log(largeData[0]);
+    };
 }
 
-// Навіть якщо setupHandler завершиться, обробник і largeData залишаться у пам'яті
-````
+const leakyFunction = createLeak(); // largeData остается в памяти
+```
 
-3. **Циклічні посилання**
+2. **Забытые обработчики событий**
 
 ```javascript
-function createCycle() { 
-const obj1 = {}; 
-const obj2 = {}; 
-
-obj1.ref = obj2; 
-obj2.ref = obj1; 
-
-return function() { 
-// Функція, яка нічого не робить, але зберігає 
-// Доступ до циклічно пов'язаних об'єктів 
-};
+function setupHandler() {
+    const largeData = new Array(1000000).fill('x');
+    
+    document.getElementById('button').addEventListener('click', function() {
+        // Обработчик сохраняет ссылку на largeData
+        console.log(largeData[0]);
+    });
 }
-````
 
-### WeakMap і WeakSet для запобігання витоку
+// Даже если setupHandler завершится, обработчик и largeData останутся в памяти
+```
+
+3. **Циклические ссылки**
 
 ```javascript
-// Використання WeakMap для кешування без витоку пам'яті
-const cache = New WeakMap ();
+function createCycle() {
+    const obj1 = {};
+    const obj2 = {};
+    
+    obj1.ref = obj2;
+    obj2.ref = obj1;
+    
+    return function() {
+        // Функция, которая ничего не делает, но сохраняет
+        // доступ к циклически связанным объектам
+    };
+}
+```
 
-function processUser(user) { 
-if (cache.has(user)) { 
-return cache.get(user); 
-} 
+### WeakMap и WeakSet для предотвращения утечек
 
-const result = expensiveOperation(user); 
-cache.set(user, result); 
-return result;
+```javascript
+// Использование WeakMap для кеширования без утечек памяти
+const cache = new WeakMap();
+
+function processUser(user) {
+    if (cache.has(user)) {
+        return cache.get(user);
+    }
+    
+    const result = expensiveOperation(user);
+    cache.set(user, result);
+    return result;
 }
 
-let user = {name: "John"};
+let user = { name: "John" };
 processUser(user);
 
-// Якщо user більше не використовується, він та його дані в кеші
-// можуть бути автоматично видалені збирачем сміття
+// Если user больше не используется, он и его данные в кеше
+// могут быть автоматически удалены сборщиком мусора
 user = null;
-````
+```
 
 ## Event Loop
 
-Event Loop (цикл подій) - це механізм, який дозволяє JavaScript виконувати неблокуючі операції, незважаючи на те, що JavaScript є однопоточним.
+Event Loop (цикл событий) - это механизм, который позволяет JavaScript выполнять неблокирующие операции, несмотря на то, что JavaScript однопоточный.
 
-### Компоненти Event Loop:
+### Компоненты Event Loop:
 
-1. **Call Stack** - стек викликів функцій
-2. **Heap** - область пам'яті для об'єктів
-3. **Queue** - черга завдань: 
-- **Macrotask Queue** - setTimeout, setInterval, I/O, UI рендеринг 
-- **Microtask Queue** - Promise callbacks, queueMicrotask, MutationObserver
+1. **Call Stack** - стек вызовов функций
+2. **Heap** - область памяти для объектов
+3. **Queue** - очередь задач:
+   - **Macrotask Queue** - setTimeout, setInterval, I/O, UI рендеринг
+   - **Microtask Queue** - Promise callbacks, queueMicrotask, MutationObserver
 
-### Порядок виконання:
+### Порядок выполнения:
 
-1. Виконати весь код у стеку дзвінків
-2. Виконати всі мікрозадачі
-3. Виконати одне макрозавдання
-4. Повторити з кроку 1
+1. Выполнить весь код в стеке вызовов
+2. Выполнить все микрозадачи
+3. Выполнить одну макрозадачу
+4. Повторить с шага 1
 
 ```javascript
-console.log('1 - Синхронний код');
+console.log('1 - Синхронный код');
 
-setTimeout(() => { 
-console.log('4 - Макрозадача (setTimeout)');
+setTimeout(() => {
+    console.log('4 - Макрозадача (setTimeout)');
 }, 0);
 
-Promise.resolve() 
-.then(() => { 
-console.log('2 - Мікрозавдання (Promise)'); 
-}) 
-.then(() => { 
-console.log('3 - Мікрозавдання (Promise, наступний then)'); 
-});
+Promise.resolve()
+    .then(() => {
+        console.log('2 - Микрозадача (Promise)');
+    })
+    .then(() => {
+        console.log('3 - Микрозадача (Promise, следующий then)');
+    });
 
-console.log('5 - Синхронний код');
+console.log('5 - Синхронный код');
 
-// Висновок:
-// 1 - Синхронний код
-// 5 - Синхронний код
-// 2 - Мікрозавдання (Promise)
-// 3 - Мікрозавдання (Promise, наступний then)
+// Вывод:
+// 1 - Синхронный код
+// 5 - Синхронный код
+// 2 - Микрозадача (Promise)
+// 3 - Микрозадача (Promise, следующий then)
 // 4 - Макрозадача (setTimeout)
-````
+```
 
 ### queueMicrotask
 
 ```javascript
-console.log('1 - Початок');
+console.log('1 - Начало');
 
-queueMicrotask(() => { 
-console.log('3 - Мікрозавдання');
+queueMicrotask(() => {
+    console.log('3 - Микрозадача');
 });
 
-console.log('2 - Кінець');
+console.log('2 - Конец');
 
-// Висновок:
-// 1 - Початок
-// 2 - Кінець
-// 3 - Мікрозавдання
-````
+// Вывод:
+// 1 - Начало
+// 2 - Конец
+// 3 - Микрозадача
+```
 
-## Робота з DOM
+## Работа с DOM
 
-DOM (Document Object Model) – це програмний інтерфейс для HTML та XML документів.
+DOM (Document Object Model) - это программный интерфейс для HTML и XML документов.
 
-### Вибір елементів
+### Выбор элементов
 
 ```javascript
-// За ID
+// По ID
 const element = document.getElementById('myId');
 
-// За класом
+// По классу
 const elements = document.getElementsByClassName('myClass');
 
-// За тегом
+// По тегу
 const divs = document.getElementsByTagName('div');
 
-// CSS-селектори
-const element2 = document.querySelector('.myClass'); // Перший знайдений
-const allElements = document.querySelectorAll('div.myClass'); // NodeList всіх знайдених
+// CSS-селекторы
+const element2 = document.querySelector('.myClass'); // Первый найденный
+const allElements = document.querySelectorAll('div.myClass'); // NodeList всех найденных
 
-// Відносна навігація
+// Относительная навигация
 const parent = element.parentNode;
-const children = element.childNodes; // Включно з текстовими вузлами
-const elementChildren = element.children; // Тільки елементи
+const children = element.childNodes; // Включая текстовые узлы
+const elementChildren = element.children; // Только элементы
 const firstChild = element.firstChild;
 const lastChild = element.lastChild;
 const nextSibling = element.nextSibling;
 const previousSibling = element.previousSibling;
-````
+```
 
-### Зміна DOM
+### Изменение DOM
 
 ```javascript
-// Створення елементів
+// Создание элементов
 const div = document.createElement('div');
-const textNode = document.createTextNode('Привіт, мир!');
+const textNode = document.createTextNode('Привет, мир!');
 
-// Додавання елементів
+// Добавление элементов
 div.appendChild(textNode);
 document.body.appendChild(div);
 
-// Вставка елементів
+// Вставка элементов
 const parent = document.getElementById('container');
 const referenceNode = document.getElementById('reference');
 parent.insertBefore(div, referenceNode);
 
-// Сучасні методи вставки
-parent.append(div, textNode); // Додає до кінця
-parent.prepend(div); // Додає на початок
-referenceNode.before(div); // Вставляє перед
-referenceNode.after(div); // Вставляє після
-referenceNode.replaceWith(div); // Замінює
+// Современные методы вставки
+parent.append(div, textNode); // Добавляет в конец
+parent.prepend(div); // Добавляет в начало
+referenceNode.before(div); // Вставляет перед
+referenceNode.after(div); // Вставляет после
+referenceNode.replaceWith(div); // Заменяет
 
-// Видалення елементів
+// Удаление элементов
 parent.removeChild(div);
-div.remove(); // Сучасний метод
+div.remove(); // Современный метод
 
-// Клонування
-const clone = div.cloneNode(true); // true - глибоке клонування з нащадками
-````
+// Клонирование
+const clone = div.cloneNode(true); // true - глубокое клонирование с потомками
+```
 
-### Робота з атрибутами
+### Работа с атрибутами
 
 ```javascript
-// Стандартні атрибути
+// Стандартные атрибуты
 element.id = 'newId';
 element.className = 'class1 class2';
 element.href = 'https://example.com';
 
-// Довільні атрибути
+// Произвольные атрибуты
 element.setAttribute('data-id', '123');
 const value = element.getAttribute('data-id');
 element.removeAttribute('data-id');
 
-// Перевірка наявності атрибуту
+// Проверка наличия атрибута
 const hasAttr = element.hasAttribute('data-id');
 
-// data-атрибути
-element.dataset.id = '123'; // Встановлює data-id="123"
-console.log(element.dataset.id); // Отримує значення data-id
-````
+// data-атрибуты
+element.dataset.id = '123'; // Устанавливает data-id="123"
+console.log(element.dataset.id); // Получает значение data-id
+```
 
-### Робота з класами
+### Работа с классами
 
 ```javascript
-// Додавання/видалення класів
+// Добавление/удаление классов
 element.classList.add('newClass');
 element.classList.remove('oldClass');
-element.classList.toggle('active'); // Додає, якщо ні; видаляє, якщо є
-element.classList.contains('active'); // Перевірка наявності класу
-element.classList.replace('oldClass', 'newClass'); // Замінює один клас іншим
-````
+element.classList.toggle('active'); // Добавляет, если нет; удаляет, если есть
+element.classList.contains('active'); // Проверка наличия класса
+element.classList.replace('oldClass', 'newClass'); // Заменяет один класс другим
+```
 
-### Робота зі стилями
+### Работа со стилями
 
 ```javascript
-// Вбудовані стилі
+// Встроенные стили
 element.style.color = 'red';
-element.style.backgroundColor = 'blue'; // camelCase для CSS-властивостей
-element.style.cssText = 'color: red; background-color: blue;'; // Декілька стилів відразу
+element.style.backgroundColor = 'blue'; // camelCase для CSS-свойств
+element.style.cssText = 'color: red; background-color: blue;'; // Несколько стилей сразу
 
-// Отримання обчислених стилів
+// Получение вычисленных стилей
 const computedStyle = getComputedStyle(element);
 console.log(computedStyle.color);
-````
+```
 
-### Події
+### События
 
 ```javascript
-// Додавання оброблювача
-function handleClick(event) { 
-console.log('Клік!', event.target); 
-event.preventDefault(); // Запобігає дії за умовчанням 
-event.stopPropagation(); // Зупиняє спливання
+// Добавление обработчика
+function handleClick(event) {
+    console.log('Клик!', event.target);
+    event.preventDefault(); // Предотвращает действие по умолчанию
+    event.stopPropagation(); // Останавливает всплытие
 }
 
 element.addEventListener('click', handleClick);
 
-// Видалення оброблювача
+// Удаление обработчика
 element.removeEventListener('click', handleClick);
 
-// Делегування подій
-document.getElementById('list').addEventListener('click', function(event) { 
-if (event.target.tagName === 'LI') { 
-console.log('Клік по списку:', event.target.textContent); 
-}
+// Делегирование событий
+document.getElementById('list').addEventListener('click', function(event) {
+    if (event.target.tagName === 'LI') {
+        console.log('Клик по элементу списка:', event.target.textContent);
+    }
 });
 
-// Створення та відправка подій
-const customEvent = новий CustomEvent('myEvent', { 
-detail: { data: 'Довільні дані' }, 
-bubbles: true, 
-cancelable: true
+// Создание и отправка событий
+const customEvent = new CustomEvent('myEvent', {
+    detail: { data: 'Произвольные данные' },
+    bubbles: true,
+    cancelable: true
 });
 element.dispatchEvent(customEvent);
 
-// Обробка події користувача
-element.addEventListener('myEvent', function(event) { 
-console.log('Подія користувача:', event.detail.data);
+// Обработка пользовательского события
+element.addEventListener('myEvent', function(event) {
+    console.log('Пользовательское событие:', event.detail.data);
 });
-````
+```
 
 ## Web Workers
 
-Web Workers дозволяють виконувати JavaScript код у фоновому потоці, не блокуючи основний потік.
+Web Workers позволяют выполнять JavaScript-код в фоновом потоке, не блокируя основной поток.
 
-### Основний потік (main.js)
+### Основной поток (main.js)
 
 ```javascript
-// Створення Worker
-const worker = новий Worker('worker.js');
+// Создание Worker
+const worker = new Worker('worker.js');
 
-// Відправлення повідомлення Worker'у
-worker.postMessage({ command: 'start', data: [1, 2, 3, 4, 5]});
+// Отправка сообщения Worker'у
+worker.postMessage({ command: 'start', data: [1, 2, 3, 4, 5] });
 
-// Отримання повідомлення від Worker'а
-worker.onmessage = function(event) { 
-console.log('Результат від Worker:', event.data);
+// Получение сообщения от Worker'а
+worker.onmessage = function(event) {
+    console.log('Результат от Worker:', event.data);
 };
 
-// Обробка помилок
-worker.onerror = function(error) { 
-console.error('Помилка Worker:', error.message);
+// Обработка ошибок
+worker.onerror = function(error) {
+    console.error('Ошибка в Worker:', error.message);
 };
 
-// Завершення Worker'а
-function terminateWorker() { 
-worker.terminate();
+// Завершение Worker'а
+function terminateWorker() {
+    worker.terminate();
 }
-````
+```
 
 ### Worker (worker.js)
 
 ```javascript
-// Отримання повідомлення від основного потоку
-self.onmessage = function(event) { 
-const {command, data} = event.data; 
-
-if (command === 'start') { 
-// Виконання важких обчислень 
-const result = heavyComputation(data); 
-
-// Надсилання результату назад 
-self.postMessage({result}); 
-}
+// Получение сообщения от основного потока
+self.onmessage = function(event) {
+    const { command, data } = event.data;
+    
+    if (command === 'start') {
+        // Выполнение тяжелых вычислений
+        const result = heavyComputation(data);
+        
+        // Отправка результата обратно
+        self.postMessage({ result });
+    }
 };
 
-function heavyComputation(data) { 
-// Приклад: обчислення суми квадратів 
-return data.map(x => x * x).reduce((sum, x) => sum + x, 0);
+function heavyComputation(data) {
+    // Пример: вычисление суммы квадратов
+    return data.map(x => x * x).reduce((sum, x) => sum + x, 0);
 }
 
-// Обробка помилок
-self.onerror = function(error) { 
-console.error('Помилка Worker:', error.message);
+// Обработка ошибок
+self.onerror = function(error) {
+    console.error('Ошибка в Worker:', error.message);
 };
 
-// Самозавершення
-function closeWorker() { 
-self.close();
+// Самозавершение
+function closeWorker() {
+    self.close();
 }
-````
+```
 
 ### Shared Workers
 
-Дозволяють кільком вкладкам/фреймам використовувати той самий Worker.
+Позволяют нескольким вкладкам/фреймам использовать один и тот же Worker.
 
 ```javascript
-// Основний потік
-const sharedWorker = новий SharedWorker('shared-worker.js');
+// Основной поток
+const sharedWorker = new SharedWorker('shared-worker.js');
 
-// Підключення до порту
+// Подключение к порту
 sharedWorker.port.start();
 
-// Відправлення повідомлення
+// Отправка сообщения
 sharedWorker.port.postMessage({ command: 'getData' });
 
-// Отримання повідомлення
-sharedWorker.port.onmessage = function(event) { 
-console.log('Дані від Shared Worker:', event.data);
+// Получение сообщения
+sharedWorker.port.onmessage = function(event) {
+    console.log('Данные от Shared Worker:', event.data);
 };
-````
+```
 
 ```javascript
 // shared-worker.js
 const connections = [];
 
-// Обробка підключень
-self.onconnect = function(event) { 
-const port=event.ports[0]; 
-connections.push(port); 
-port.start(); 
-
-port.onmessage = function(event) { 
-const {command} = event.data; 
-
-if (command === 'getData') { 
-port.postMessage({ result: 'Дані для всіх підключень'}); 
-} else if (command === 'broadcast') { 
-// Надсилання повідомлення всім підключенням 
-connections.forEach(connection => { 
-connection.postMessage({ broadcast: 'Повідомлення для всіх'}); 
-}); 
-} 
+// Обработка подключений
+self.onconnect = function(event) {
+    const port = event.ports[0];
+    connections.push(port);
+    port.start();
+    
+    port.onmessage = function(event) {
+        const { command } = event.data;
+        
+        if (command === 'getData') {
+            port.postMessage({ result: 'Данные для всех подключений' });
+        } else if (command === 'broadcast') {
+            // Отправка сообщения всем подключениям
+            connections.forEach(connection => {
+                connection.postMessage({ broadcast: 'Сообщение для всех' });
+            });
+        }
+    };
 };
-};
-````
+```
 
 ## Web Storage API
 
 ### LocalStorage
 
-Зберігає дані без обмеження за часом, доступний лише у межах одного домену.
+Хранит данные без ограничения по времени, доступен только в рамках одного домена.
 
 ```javascript
-//Збереження даних
+// Сохранение данных
 localStorage.setItem('username', 'John');
 localStorage.setItem('preferences', JSON.stringify({ theme: 'dark', fontSize: 14 }));
 
-// Отримання даних
+// Получение данных
 const username = localStorage.getItem('username');
 const preferences = JSON.parse(localStorage.getItem('preferences'));
 
-// Видалення даних
+// Удаление данных
 localStorage.removeItem('username');
 
-// Очищення всіх даних
+// Очистка всех данных
 localStorage.clear();
 
-// Кількість елементів
+// Количество элементов
 console.log(localStorage.length);
 
-// Отримання ключа за індексом
+// Получение ключа по индексу
 const key = localStorage.key(0);
-````
+```
 
 ### SessionStorage
 
-Схожий на localStorage, але дані зберігаються лише на час сесії (поки відкрито вкладку).
+Похож на localStorage, но данные сохраняются только на время сессии (пока открыта вкладка).
 
 ```javascript
-// Працює аналогічно localStorage
-sessionStorage.setItem('tempData', 'Тимчасові дані');
+// Работает аналогично localStorage
+sessionStorage.setItem('tempData', 'Временные данные');
 const tempData = sessionStorage.getItem('tempData');
 sessionStorage.removeItem('tempData');
 sessionStorage.clear();
-````
+```
 
-### Події сховища
+### События хранилища
 
 ```javascript
-// Відстеження змін до localStorage/sessionStorage в інших вкладках
-window.addEventListener('storage', function(event) { 
-console.log('Зміна в сховищі:', { 
-key: event.key, 
-oldValue: event.oldValue, 
-newValue: event.newValue, 
-url: event.url, 
-storageArea: event.storageArea // localStorage або sessionStorage 
+// Отслеживание изменений в localStorage/sessionStorage в других вкладках
+window.addEventListener('storage', function(event) {
+    console.log('Изменение в хранилище:', {
+        key: event.key,
+        oldValue: event.oldValue,
+        newValue: event.newValue,
+        url: event.url,
+        storageArea: event.storageArea // localStorage или sessionStorage
+    });
 });
-});
-````
+```
 
 ## WebSockets
 
-WebSocket - це протокол, що забезпечує повнодуплексний зв'язок між клієнтом та сервером.
+WebSocket - это протокол, обеспечивающий полнодуплексную связь между клиентом и сервером.
 
-### Клієнтська частина
+### Клиентская часть
 
 ```javascript
-// Створення з'єднання
-const socket = новий WebSocket('wss://example.com/socket');
+// Создание соединения
+const socket = new WebSocket('wss://example.com/socket');
 
-// Обробка подій
-socket.onopen = function(event) { 
-console.log('З'єднання встановлено'); 
-
-// Надсилання повідомлення серверу 
-socket.send(JSON.stringify({ type: 'greeting', content: 'Привіт, сервер!'}));
+// Обработка событий
+socket.onopen = function(event) {
+    console.log('Соединение установлено');
+    
+    // Отправка сообщения серверу
+    socket.send(JSON.stringify({ type: 'greeting', content: 'Привет, сервер!' }));
 };
 
-socket.onmessage = function(event) { 
-// Отримання повідомлення від сервера 
-const message = JSON.parse(event.data); 
-console.log('Повідомлення від сервера:', message);
+socket.onmessage = function(event) {
+    // Получение сообщения от сервера
+    const message = JSON.parse(event.data);
+    console.log('Сообщение от сервера:', message);
 };
 
-socket.onerror = function(error) { 
-console.error('Помилка WebSocket:', error);
+socket.onerror = function(error) {
+    console.error('Ошибка WebSocket:', error);
 };
 
-socket.onclose = function(event) { 
-console.log('З'єднання закрито:', event.code, event.reason);
+socket.onclose = function(event) {
+    console.log('Соединение закрыто:', event.code, event.reason);
 };
 
-// Відправлення даних
-function sendMessage(content) { 
-if (socket.readyState === WebSocket.OPEN) { 
-socket.send(JSON.stringify({ type: 'message', content })); 
-} else { 
-console.error('З'єднання не встановлено'); 
+// Отправка данных
+function sendMessage(content) {
+    if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: 'message', content }));
+    } else {
+        console.error('Соединение не установлено');
+    }
 }
-}
 
-// Закриття з'єднання
-function closeConnection() { 
-socket.close(1000, 'Нормальне закриття');
+// Закрытие соединения
+function closeConnection() {
+    socket.close(1000, 'Нормальное закрытие');
 }
-````
+```
 
-### Серверна частина (Node.js з бібліотекою ws)
+### Серверная часть (Node.js с библиотекой ws)
 
 ```javascript
 const WebSocket = require('ws');
 
-// Створення WebSocket-сервера
-const wss = новий WebSocket.Server({ port: 8080 });
+// Создание WebSocket-сервера
+const wss = new WebSocket.Server({ port: 8080 });
 
-// Обробка підключень
-wss.on('connection', function connection(ws) { 
-console.log('Нове підключення'); 
-
-// Відправлення привітання 
-ws.send(JSON.stringify({ type: 'welcome', content: 'Ласкаво просимо!' }))); 
-
-// Отримання повідомлень 
-ws.on('message', function incoming(message) { 
-const data = JSON.parse(message); 
-console.log('Отримано повідомлення:', data); 
-
-// Відлуння-відповідь 
-ws.send(JSON.stringify({ type: 'echo', content: data.content })); 
-}); 
-
-// Обробка закриття з'єднання 
-ws.on('close', function() { 
-console.log('З'єднання закрите'); 
+// Обработка подключений
+wss.on('connection', function connection(ws) {
+    console.log('Новое подключение');
+    
+    // Отправка приветствия
+    ws.send(JSON.stringify({ type: 'welcome', content: 'Добро пожаловать!' }));
+    
+    // Получение сообщений
+    ws.on('message', function incoming(message) {
+        const data = JSON.parse(message);
+        console.log('Получено сообщение:', data);
+        
+        // Эхо-ответ
+        ws.send(JSON.stringify({ type: 'echo', content: data.content }));
+    });
+    
+    // Обработка закрытия соединения
+    ws.on('close', function() {
+        console.log('Соединение закрыто');
+    });
 });
-});
 
-// Розсилка повідомлення всім клієнтам
-function broadcast(message) { 
-wss.clients.forEach(function each(client) { 
-if (client.readyState === WebSocket.OPEN) { 
-client.send(JSON.stringify(message)); 
-} 
-});
+// Рассылка сообщения всем клиентам
+function broadcast(message) {
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(message));
+        }
+    });
 }
-````
+```
 
 ## Node.js
 
-Node.js – це середовище виконання JavaScript на основі двигуна V8, що дозволяє запускати JavaScript на сервері.
+Node.js - это среда выполнения JavaScript на основе движка V8, позволяющая запускать JavaScript на сервере.
 
-### Модульна система
+### Модульная система
 
-#### CommonJS (традиційна для Node.js)
+#### CommonJS (традиционная для Node.js)
 
 ```javascript
 // math.js
-function add(a, b) { 
-return a + b;
+function add(a, b) {
+    return a + b;
 }
 
-function subtract(a, b) { 
-return a - b;
+function subtract(a, b) {
+    return a - b;
 }
 
-module.exports = { 
-add, 
-subtract
+module.exports = {
+    add,
+    subtract
 };
 
-// Або експорт окремих функцій
+// Или экспорт отдельных функций
 // exports.add = add;
 // exports.subtract = subtract;
-````
+```
 
 ```javascript
 // app.js
 const math = require('./math');
-// Або з деструктуризацією
-// const {add, subtract} = require('./math');
+// Или с деструктуризацией
+// const { add, subtract } = require('./math');
 
 console.log(math.add(5, 3)); // 8
 console.log(math.subtract(5, 3)); // 2
-````
+```
 
-#### ES Modules (підтримується в нових версіях Node.js)
+#### ES Modules (поддерживается в новых версиях Node.js)
 
 ```javascript
 // math.mjs
-export function add(a, b) { 
-return a + b;
+export function add(a, b) {
+    return a + b;
 }
 
-export function subtract(a, b) { 
-return a - b;
+export function subtract(a, b) {
+    return a - b;
 }
 
-// Або експорт за замовчуванням
-// export default {add, subtract};
-````
+// Или экспорт по умолчанию
+// export default { add, subtract };
+```
 
 ```javascript
 // app.mjs
 import { add, subtract } from './math.mjs';
-// Або імпорт всього модуля
+// Или импорт всего модуля
 // import * as math from './math.mjs';
 
 console.log(add(5, 3)); // 8
 console.log(subtract(5, 3)); // 2
-````
+```
 
-### Основні модулі Node.js
+### Основные модули Node.js
 
-#### Файлова система (fs)
+#### Файловая система (fs)
 
 ```javascript
 const fs = require('fs');
 
-// Синхронне читання
-try { 
-const data = fs.readFileSync('file.txt', 'utf8'); 
-console.log(data);
-} catch (err) { 
-console.error('Помилка читання файлу:', err);
+// Синхронное чтение
+try {
+    const data = fs.readFileSync('file.txt', 'utf8');
+    console.log(data);
+} catch (err) {
+    console.error('Ошибка чтения файла:', err);
 }
 
-// Асинхронне читання з коллбеком
-fs.readFile('file.txt', 'utf8', (err, data) => { 
-if (err) { 
-console.error('Помилка читання файлу:', err); 
-return; 
-} 
-console.log(data);
+// Асинхронное чтение с коллбэком
+fs.readFile('file.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error('Ошибка чтения файла:', err);
+        return;
+    }
+    console.log(data);
 });
 
-// Асинхронне читання з промісами
+// Асинхронное чтение с промисами
 const fsPromises = require('fs').promises;
 
-async function readFileAsync() { 
-try { 
-const data = await fsPromises.readFile('file.txt', 'utf8'); 
-console.log(data); 
-} catch (err) { 
-console.error('Помилка читання файлу:', err); 
+async function readFileAsync() {
+    try {
+        const data = await fsPromises.readFile('file.txt', 'utf8');
+        console.log(data);
+    } catch (err) {
+        console.error('Ошибка чтения файла:', err);
+    }
 }
-}
 
-// Запис у файл
-fs.writeFile('output.txt', 'Привіт, мир!', 'utf8', (err) => { 
-if (err) { 
-console.error('Помилка запису файлу:', err); 
-return; 
-} 
-console.log('Файл успішно записаний');
+// Запись в файл
+fs.writeFile('output.txt', 'Привет, мир!', 'utf8', (err) => {
+    if (err) {
+        console.error('Ошибка записи файла:', err);
+        return;
+    }
+    console.log('Файл успешно записан');
 });
 
-// Робота з директоріями
-fs.mkdir('new-dir', {recursive: true}, (err) => { 
-if (err) { 
-console.error('Помилка створення директорії:', err); 
-return; 
-} 
-console.log('Директорія створена');
+// Работа с директориями
+fs.mkdir('new-dir', { recursive: true }, (err) => {
+    if (err) {
+        console.error('Ошибка создания директории:', err);
+        return;
+    }
+    console.log('Директория создана');
 });
 
-// Читання вмісту директорії
-fs.readdir('.', (err, files) => { 
-if (err) { 
-console.error('Помилка читання директорії:', err); 
-return; 
-} 
-console.log('Файли:', files);
+// Чтение содержимого директории
+fs.readdir('.', (err, files) => {
+    if (err) {
+        console.error('Ошибка чтения директории:', err);
+        return;
+    }
+    console.log('Файлы:', files);
 });
-````
+```
 
 #### HTTP-сервер
 
 ```javascript
-const http = require ('http');
+const http = require('http');
 
-// Створення простого HTTP-сервера
-const server = http.createServer((req, res) => { 
-// Отримання інформації про запит 
-const {method, url, headers} = req; 
-console.log(`${method} ${url}`); 
-
-// Обробка різних URL 
-if (url === '/') { 
-res.writeHead(200, {'Content-Type': 'text/plain'}); 
-res.end('Головна сторінка'); 
-} else if (url === '/api/data') { 
-res.writeHead(200, { 'Content-Type': 'application/json'}); 
-res.end(JSON.stringify({ message: 'Дані API'})); 
-} else { 
-res.writeHead(404, {'Content-Type': 'text/plain'}); 
-res.end('Сторінку не знайдено'); 
-}
+// Создание простого HTTP-сервера
+const server = http.createServer((req, res) => {
+    // Получение информации о запросе
+    const { method, url, headers } = req;
+    console.log(`${method} ${url}`);
+    
+    // Обработка разных URL
+    if (url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Главная страница');
+    } else if (url === '/api/data') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Данные API' }));
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Страница не найдена');
+    }
 });
 
 // Запуск сервера
-const PORT = process.env.PORT | 3000;
-server.listen(PORT, () => { 
-console.log(`Сервер запущений на порту ${PORT}`);
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Сервер запущен на порту ${PORT}`);
 });
-````
+```
 
-#### Робота з шляхами (path)
+#### Работа с путями (path)
 
 ```javascript
 const path = require('path');
 
-// Об'єднання шляхів
+// Объединение путей
 const fullPath = path.join(__dirname, 'subfolder', 'file.txt');
 console.log(fullPath);
 
-//Нормалізація шляху
+// Нормализация пути
 console.log(path.normalize('/folder//subfolder/file.txt'));
 
-// Отримання компонентів шляху
+// Получение компонентов пути
 console.log(path.basename('/folder/file.txt')); // file.txt
-console.log(path.dirname('/folder/file.txt')); // / folder
+console.log(path.dirname('/folder/file.txt')); // /folder
 console.log(path.extname('/folder/file.txt')); // .txt
 
-// Розбір шляху
+// Разбор пути
 const pathInfo = path.parse('/folder/file.txt');
 console.log(pathInfo);
 // { root: '/', dir: '/folder', base: 'file.txt', ext: '.txt', name: 'file' }
-````
+```
 
-#### Події (EventEmitter)
+#### События (EventEmitter)
 
 ```javascript
 const EventEmitter = require('events');
 
-// Створення емітера подій
+// Создание эмиттера событий
 class MyEmitter extends EventEmitter {}
-const myEmitter = New MyEmitter();
+const myEmitter = new MyEmitter();
 
-// Реєстрація оброблювача події
-myEmitter.on('event', (arg1, arg2) => { 
-console.log('Подія відбулася:', arg1, arg2);
+// Регистрация обработчика события
+myEmitter.on('event', (arg1, arg2) => {
+    console.log('Событие произошло:', arg1, arg2);
 });
 
-// Реєстрація оброблювача, який спрацює лише один раз
-myEmitter.once('oneTimeEvent', () => { 
-console.log('Ця подія спрацює лише один раз');
+// Регистрация обработчика, который сработает только один раз
+myEmitter.once('oneTimeEvent', () => {
+    console.log('Это событие сработает только один раз');
 });
 
-// Генерація події
+// Генерация события
 myEmitter.emit('event', 'arg1', 'arg2');
 myEmitter.emit('oneTimeEvent');
-myEmitter.emit('oneTimeEvent'); // Обробник не спрацює
+myEmitter.emit('oneTimeEvent'); // Обработчик не сработает
 
-// Видалення оброблювача
-function handler() { 
-console.log('Обробник події');
+// Удаление обработчика
+function handler() {
+    console.log('Обработчик события');
 }
 myEmitter.on('removeMe', handler);
 myEmitter.removeListener('removeMe', handler);
-// Або myEmitter.off('removeMe', handler); у нових версіях
+// Или myEmitter.off('removeMe', handler); в новых версиях
 
-// Отримання списку слухачів
+// Получение списка слушателей
 console.log(myEmitter.listeners('event'));
 
-// Встановлення максимальної кількості слухачів
-myEmitter.setMaxListeners(20); // За замовчуванням 10
-````
+// Установка максимального количества слушателей
+myEmitter.setMaxListeners(20); // По умолчанию 10
+```
 
-## JSDoc та типізація
+## JSDoc и типизация
 
-JSDoc - це система документування JavaScript за допомогою коментарів, яка також може використовуватися для статичної типізації.
+JSDoc - это система документирования кода JavaScript с помощью комментариев, которая также может использоваться для статической типизации.
 
 ```javascript
-/** 
-* Представляє користувача системи. 
-* @typedef {Object} User 
-* @property {string} id - Унікальний ідентифікатор користувача 
-* @property {string} name - Ім'я користувача 
-* @property {number} age - Вік користувача 
-* @property {string[]} roles - Список ролей користувача 
-*/
+/**
+ * Представляет пользователя системы.
+ * @typedef {Object} User
+ * @property {string} id - Уникальный идентификатор пользователя
+ * @property {string} name - Имя пользователя
+ * @property {number} age - Возраст пользователя
+ * @property {string[]} roles - Список ролей пользователя
+ */
 
-/** 
-* Створює нового користувача. 
-* @param {string} name - Ім'я користувача 
-* @param {number} age - Вік користувача 
-* @param {string[]} [roles=['user']] - Список ролей користувача (за замовчуванням ['user']) 
-* @returns {User} Створений користувач 
-* @throws {Error} Якщо вік менше 18 
-*/
-function createUser(name, age, roles = ['user']) { 
-if (age < 18) { 
-throw new Error('Користувач повинен бути повнолітнім'); 
-} 
+/**
+ * Создает нового пользователя.
+ * @param {string} name - Имя пользователя
+ * @param {number} age - Возраст пользователя
+ * @param {string[]} [roles=['user']] - Список ролей пользователя (по умолчанию ['user'])
+ * @returns {User} Созданный пользователь
+ * @throws {Error} Если возраст меньше 18
+ */
+function createUser(name, age, roles = ['user']) {
+    if (age < 18) {
+        throw new Error('Пользователь должен быть совершеннолетним');
+    }
+    
+    return {
+        id: generateId(),
+        name,
+        age,
+        roles
+    };
+}
 
-return { 
-id: generateId(), 
-name, 
-age, 
-roles 
+/**
+ * Генерирует уникальный идентификатор.
+ * @returns {string} Уникальный идентификатор
+ * @private
+ */
+function generateId() {
+    return Math.random().toString(36).substr(2, 9);
+}
+
+/**
+ * Класс для работы с коллекцией пользователей.
+ */
+class UserService {
+    /**
+     * @type {User[]}
+     * @private
+     */
+    #users = [];
+    
+    /**
+     * Добавляет пользователя в коллекцию.
+     * @param {User} user - Пользователь для добавления
+     * @returns {void}
+     */
+    addUser(user) {
+        this.#users.push(user);
+    }
+    
+    /**
+     * Находит пользователя по идентификатору.
+     * @param {string} id - Идентификатор пользователя
+     * @returns {User|null} Найденный пользователь или null
+     */
+    findById(id) {
+        return this.#users.find(user => user.id === id) || null;
+    }
+    
+    /**
+     * Находит пользователей по роли.
+     * @param {string} role - Роль для поиска
+     * @returns {User[]} Список пользователей с указанной ролью
+     */
+    findByRole(role) {
+        return this.#users.filter(user => user.roles.includes(role));
+    }
+}
+
+/**
+ * Функция высшего порядка для фильтрации пользователей.
+ * @callback UserFilterCallback
+ * @param {User} user - Пользователь для проверки
+ * @returns {boolean} True, если пользователь соответствует критерию
+ */
+
+/**
+ * Фильтрует пользователей по заданному критерию.
+ * @param {User[]} users - Массив пользователей
+ * @param {UserFilterCallback} filterFn - Функция фильтрации
+ * @returns {User[]} Отфильтрованный массив пользователей
+ */
+function filterUsers(users, filterFn) {
+    return users.filter(filterFn);
+}
+
+/**
+ * Перечисление возможных статусов задачи.
+ * @enum {string}
+ */
+const TaskStatus = {
+    /** Задача создана */
+    CREATED: 'created',
+    /** Задача в процессе выполнения */
+    IN_PROGRESS: 'in_progress',
+    /** Задача завершена */
+    COMPLETED: 'completed',
+    /** Задача отменена */
+    CANCELLED: 'cancelled'
 };
+
+/**
+ * @template T
+ * @param {T} value - Значение для обработки
+ * @returns {T} То же значение
+ */
+function identity(value) {
+    return value;
 }
 
-/** 
-* Генерує унікальний ідентифікатор. 
-* @returns {string} Унікальний ідентифікатор 
-* @private 
-*/
-function generateId() { 
-return Math.random().toString(36).substr(2, 9);
-}
-
-/** 
-* Клас для роботи з колекцією користувачів. 
-*/
-class UserService { 
-/** 
-* @type {User[]} 
-* @private 
-*/ 
-#users = []; 
-
-/** 
-* Додає користувача до колекції. 
-* @param {User} user - Користувач для додавання 
-* @returns {void} 
-*/ 
-addUser(user) { 
-this.#users.push(user); 
-} 
-
-/** 
-* Знаходить користувача за ідентифікатором. 
-* @param {string} id - Ідентифікатор користувача 
-* @returns {User|null} Знайдений користувач або null 
-*/ 
-findById(id) { 
-return this.#users.find(user => user.id === id) || null; 
-} 
-
-/** 
-* Знаходить користувачів по ролі. 
-* @param {string} role - Роль для пошуку 
-* @returns {User[]} Список користувачів із зазначеною роллю 
-*/ 
-findByRole(role) { 
-return this.#users.filter(user => user.roles.includes(role)); 
-}
-}
-
-/** 
-* Функція вищого порядку для фільтрації користувачів. 
-* @callback UserFilterCallback 
-* @param {User} user - Користувач для перевірки 
-* @returns {boolean} True, якщо користувач відповідає критерію 
-*/
-
-/** 
-* Фільтрує користувачів за заданим критерієм. 
-* @param {User[]} users - Масив користувачів 
-* @param {UserFilterCallback} filterFn - Функція фільтрації 
-* @returns {User[]} Відфільтрований масив користувачів 
-*/
-function filterUsers(users, filterFn) { 
-return users.filter(filterFn);
-}
-
-/** 
-* Перерахування можливих статусів завдання. 
-* @enum {string} 
-*/
-const TaskStatus = { 
-/** Завдання створено */ 
-CREATED: 'created', 
-/** Завдання у процесі виконання */ 
-IN_PROGRESS: 'in_progress', 
-/** Завдання завершено */ 
-COMPLETED: 'completed', 
-/** Завдання скасовано */ 
-CANCELLED: 'cancelled'
-};
-
-/** 
-* @template T 
-* @param {T} value - Значення для обробки 
-* @returns {T} Те саме значення 
-*/
-function identity(value) { 
-return value;
-}
-
-// Використання з JSDoc-типами
+// Использование с JSDoc-типами
 const user = createUser('John', 25, ['admin', 'moderator']);
-const service = новий UserService();
+const service = new UserService();
 service.addUser(user);
 
 const admins = service.findByRole('admin');
@@ -2007,647 +2007,648 @@ const youngAdmins = filterUsers(admins, user => user.age < 30);
 
 const numberIdentity = identity(42); // T = number
 const stringIdentity = identity('hello'); // T = string
-````
+```
 
-### Інтеграція з TypeScript
+### Интеграция с TypeScript
 
-Сучасні IDE (VSCode, WebStorm) можуть використовувати JSDoc для перевірки типів навіть без TypeScript:
+Современные IDE (VSCode, WebStorm) могут использовать JSDoc для проверки типов даже без TypeScript:
 
 ```javascript
 // @ts-check
 
-/** 
-* @typedef {Object} Point 
-* @property {number} x - Координата X 
-* @property {number} y - Координата Y 
-*/
+/**
+ * @typedef {Object} Point
+ * @property {number} x - Координата X
+ * @property {number} y - Координата Y
+ */
 
-/** 
-* Обчислює відстань між двома точками. 
-* @param {Point} p1 - Перша точка 
-* @param {Point} p2 - Друга точка 
-* @returns {number} Відстань між точками 
-*/
-function distance(p1, p2) { 
-return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+/**
+ * Вычисляет расстояние между двумя точками.
+ * @param {Point} p1 - Первая точка
+ * @param {Point} p2 - Вторая точка
+ * @returns {number} Расстояние между точками
+ */
+function distance(p1, p2) {
+    return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 }
 
-// Помилка буде підсвічена в IDE
-distance({ x: 0, y: 0 }, { x: '1', y: 0 }); // Помилка: Type 'string' is not assignable to type 'number'
-````
+// Ошибка будет подсвечена в IDE
+distance({ x: 0, y: 0 }, { x: '1', y: 0 }); // Ошибка: Type 'string' is not assignable to type 'number'
+```
 
-## Тестування: Jest та Mocha
+## Тестирование: Jest и Mocha
 
 ### Jest
 
-Jest - повноцінний фреймворк для тестування JavaScript із вбудованим засобом створення моків, асертами та покриттям коду.
+Jest - полноценный фреймворк для тестирования JavaScript с встроенным средством создания моков, ассертами и покрытием кода.
 
 #### Установка
 
-``` bash
+```bash
 npm install --save-dev jest
-````
+```
 
-#### Базові тести
+#### Базовые тесты
 
 ```javascript
 // math.js
-function sum(a, b) { 
-return a + b;
+function sum(a, b) {
+    return a + b;
 }
 
-function multiply(a, b) { 
-return a*b;
+function multiply(a, b) {
+    return a * b;
 }
 
 module.exports = { sum, multiply };
-````
+```
 
 ```javascript
 // math.test.js
 const { sum, multiply } = require('./math');
 
-test('додавання 1 + 2 дорівнює 3', () => { 
-expect(sum(1, 2)).toBe(3);
+test('сложение 1 + 2 равно 3', () => {
+    expect(sum(1, 2)).toBe(3);
 });
 
-test('множення 2 * 3 дорівнює 6', () => { 
-expect(multiply(2, 3)).toBe(6);
+test('умножение 2 * 3 равно 6', () => {
+    expect(multiply(2, 3)).toBe(6);
 });
 
-// Угруповання тестів
-describe('математичні функції', () => { 
-test('складання негативних чисел', () => { 
-expect(sum(-1, -2)).toBe(-3); 
-}); 
-
-test('множення негативних чисел', () => { 
-expect(multiply(-2, -3)).toBe(6); 
+// Группировка тестов
+describe('математические функции', () => {
+    test('сложение отрицательных чисел', () => {
+        expect(sum(-1, -2)).toBe(-3);
+    });
+    
+    test('умножение отрицательных чисел', () => {
+        expect(multiply(-2, -3)).toBe(6);
+    });
 });
-});
-````
+```
 
-#### Асинхронне тестування
+#### Асинхронное тестирование
 
 ```javascript
 // api.js
-async function fetchUser(id) { 
-const response = await fetch(`https://api.example.com/users/${id}`); 
-if (!response.ok) { 
-throw new Error('Помилка отримання користувача'); 
-} 
-return response.json();
+async function fetchUser(id) {
+    const response = await fetch(`https://api.example.com/users/${id}`);
+    if (!response.ok) {
+        throw new Error('Ошибка получения пользователя');
+    }
+    return response.json();
 }
 
 module.exports = { fetchUser };
-````
+```
 
 ```javascript
 // api.test.js
 const { fetchUser } = require('./api');
 
-// З async/await
-test('отримання користувача', async() => { 
-const user = await fetchUser(1); 
-expect(user).toHaveProperty('name'); 
-expect(user.id).toBe(1);
+// С async/await
+test('получение пользователя', async () => {
+    const user = await fetchUser(1);
+    expect(user).toHaveProperty('name');
+    expect(user.id).toBe(1);
 });
 
-// З Promise
-test('отримання користувача (Promise)', () => { 
-return fetchUser(1).then(user => { 
-expect(user).toHaveProperty('name'); 
-});
+// С Promise
+test('получение пользователя (Promise)', () => {
+    return fetchUser(1).then(user => {
+        expect(user).toHaveProperty('name');
+    });
 });
 
-// Перевірка помилок
-test('помилка при отриманні неіснуючого користувача', async() => { 
-expect.assertions(1); // Переконаємося, що асинхронний код виконається 
-try { 
-await fetchUser(999); 
-} catch (e) { 
-expect(e.message).toMatch(/помилка/i); 
-}
+// Проверка ошибок
+test('ошибка при получении несуществующего пользователя', async () => {
+    expect.assertions(1); // Убедимся, что асинхронный код выполнится
+    try {
+        await fetchUser(999);
+    } catch (e) {
+        expect(e.message).toMatch(/ошибка/i);
+    }
 });
-````
+```
 
-#### Моки та шпигуни
+#### Моки и шпионы
 
 ```javascript
-//user-service.js
+// user-service.js
 const api = require('./api');
 
-class UserService { 
-async getUser(id) { 
-const user = await api.fetchUser(id); 
-return { 
-...user, 
-fullName: `${user.firstName} ${user.lastName}` 
-}; 
-}
+class UserService {
+    async getUser(id) {
+        const user = await api.fetchUser(id);
+        return {
+            ...user,
+            fullName: `${user.firstName} ${user.lastName}`
+        };
+    }
 }
 
 module.exports = UserService;
-````
+```
 
 ```javascript
-//user-service.test.js
+// user-service.test.js
 const UserService = require('./user-service');
 const api = require('./api');
 
-// Мок всього модуля
+// Мок всего модуля
 jest.mock('./api');
 
-test('getUser повертає користувача з повним ім'ям', async() => { 
-// Налаштування мока 
-api.fetchUser.mockResolvedValue({ 
-id: 1, 
-firstName: 'John', 
-lastName: 'Doe' 
-}); 
-
-const userService = новий UserService(); 
-const user = await userService.getUser(1); 
-
-// Перевірки 
-expect(api.fetchUser).toHaveBeenCalledWith(1); 
-expect(user.fullName).toBe('John Doe');
+test('getUser возвращает пользователя с полным именем', async () => {
+    // Настройка мока
+    api.fetchUser.mockResolvedValue({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe'
+    });
+    
+    const userService = new UserService();
+    const user = await userService.getUser(1);
+    
+    // Проверки
+    expect(api.fetchUser).toHaveBeenCalledWith(1);
+    expect(user.fullName).toBe('John Doe');
 });
 
-// Шпигун для окремого методу
-test('шпигун для методу', () => { 
-const calculator = { 
-add: (a, b) => a + b 
-}; 
-
-// Створюємо шпигуна 
-const spy = jest.spyOn(calculator, 'add'); 
-
-calculator.add(2, 3); 
-
-expect(spy).toHaveBeenCalledWith(2, 3); 
-expect(spy).toHaveBeenCalledTimes(1); 
-
-// Відновлюємо оригінальну реалізацію 
-spy.mockRestore();
+// Шпион для отдельного метода
+test('шпион для метода', () => {
+    const calculator = {
+        add: (a, b) => a + b
+    };
+    
+    // Создаем шпиона
+    const spy = jest.spyOn(calculator, 'add');
+    
+    calculator.add(2, 3);
+    
+    expect(spy).toHaveBeenCalledWith(2, 3);
+    expect(spy).toHaveBeenCalledTimes(1);
+    
+    // Восстанавливаем оригинальную реализацию
+    spy.mockRestore();
 });
-````
+```
 
-#### Знімки (Snapshots)
+#### Снимки (Snapshots)
 
 ```javascript
 // component.js
-function generateUserProfile(user) { 
-return { 
-header: `Профіль: ${user.name}`, 
-content: `Вік: ${user.age}, Email: ${user.email}`, 
-footer: `Останній вхід: ${user.lastLogin}` 
-};
+function generateUserProfile(user) {
+    return {
+        header: `Профиль: ${user.name}`,
+        content: `Возраст: ${user.age}, Email: ${user.email}`,
+        footer: `Последний вход: ${user.lastLogin}`
+    };
 }
 
-module.exports = {generateUserProfile};
-````
+module.exports = { generateUserProfile };
+```
 
 ```javascript
 // component.test.js
 const { generateUserProfile } = require('./component');
 
-test('генерує правильний профіль користувача', () => { 
-const user = { 
-name: 'John Doe', 
-age: 30, 
-email: 'john@example.com', 
-lastLogin: '2023-01-15' 
-}; 
-
-const profile = generateUserProfile(user); 
-
-// Створює або порівнює зі знімком 
-expect(profile).toMatchSnapshot();
+test('генерирует правильный профиль пользователя', () => {
+    const user = {
+        name: 'John Doe',
+        age: 30,
+        email: 'john@example.com',
+        lastLogin: '2023-01-15'
+    };
+    
+    const profile = generateUserProfile(user);
+    
+    // Создает или сравнивает со снимком
+    expect(profile).toMatchSnapshot();
 });
-````
+```
 
 ### Mocha
 
-Mocha - гнучкий фреймворк для тестування JavaScript, що зазвичай використовується з бібліотекою тверджень, наприклад, Chai.
+Mocha - гибкий фреймворк для тестирования JavaScript, который обычно используется с библиотекой утверждений, например, Chai.
 
 #### Установка
 
-``` bash
+```bash
 npm install --save-dev mocha chai
-````
+```
 
-#### Базові тести
+#### Базовые тесты
 
 ```javascript
 // math.js
-function sum(a, b) { 
-return a + b;
+function sum(a, b) {
+    return a + b;
 }
 
-function multiply(a, b) { 
-return a*b;
+function multiply(a, b) {
+    return a * b;
 }
 
 module.exports = { sum, multiply };
-````
+```
 
 ```javascript
 // math.test.js
-const {expect} = require('chai');
+const { expect } = require('chai');
 const { sum, multiply } = require('./math');
 
-describe('Математичні функції', () => { 
-it('додавання 1 + 2 дорівнює 3', () => { 
-expect(sum(1, 2)).to.equal(3); 
-}); 
-
-it('множення 2 * 3 дорівнює 6', () => { 
-expect(multiply(2, 3)).to.equal(6); 
-}); 
-
-// Вкладені групи 
-describe('з негативними числами', () => { 
-it('складання негативних чисел', () => { 
-expect(sum(-1, -2)).to.equal(-3); 
-}); 
-
-it('множення негативних чисел', () => { 
-expect(multiply(-2, -3)).to.equal(6); 
-}); 
+describe('Математические функции', () => {
+    it('сложение 1 + 2 равно 3', () => {
+        expect(sum(1, 2)).to.equal(3);
+    });
+    
+    it('умножение 2 * 3 равно 6', () => {
+        expect(multiply(2, 3)).to.equal(6);
+    });
+    
+    // Вложенные группы
+    describe('с отрицательными числами', () => {
+        it('сложение отрицательных чисел', () => {
+            expect(sum(-1, -2)).to.equal(-3);
+        });
+        
+        it('умножение отрицательных чисел', () => {
+            expect(multiply(-2, -3)).to.equal(6);
+        });
+    });
 });
-});
-````
+```
 
-#### Асинхронне тестування
+#### Асинхронное тестирование
 
 ```javascript
 // api.js
-async function fetchUser(id) { 
-const response = await fetch(`https://api.example.com/users/${id}`); 
-if (!response.ok) { 
-throw new Error('Помилка отримання користувача'); 
-} 
-return response.json();
+async function fetchUser(id) {
+    const response = await fetch(`https://api.example.com/users/${id}`);
+    if (!response.ok) {
+        throw new Error('Ошибка получения пользователя');
+    }
+    return response.json();
 }
 
 module.exports = { fetchUser };
-````
+```
 
 ```javascript
 // api.test.js
-const {expect} = require('chai');
+const { expect } = require('chai');
 const { fetchUser } = require('./api');
 
-describe('API', () => { 
-// З async/await 
-it('отримання користувача', async() => { 
-const user = await fetchUser(1); 
-expect(user).to.have.property('name'); 
-expect(user.id).to.equal(1); 
-}); 
-
-// З Promise 
-it('отримання користувача (Promise)', () => { 
-return fetchUser(1).then(user => { 
-expect(user).to.have.property('name'); 
-}); 
-}); 
-
-// З done 
-it('отримання користувача (callback)', (done) => { 
-fetchUser(1) 
-.then(user => { 
-expect(user).to.have.property('name'); 
-done(); 
-}) 
-. catch (done); 
-}); 
-
-// Перевірка помилок 
-it('помилка при отриманні неіснуючого користувача', async() => { 
-try { 
-await fetchUser(999); 
-// Якщо дійшли сюди, тест повинен провалитися 
-expect.fail('Мала виникнути помилка'); 
-} catch (e) { 
-expect(e.message).to.match(/помилка/i); 
-} 
+describe('API', () => {
+    // С async/await
+    it('получение пользователя', async () => {
+        const user = await fetchUser(1);
+        expect(user).to.have.property('name');
+        expect(user.id).to.equal(1);
+    });
+    
+    // С Promise
+    it('получение пользователя (Promise)', () => {
+        return fetchUser(1).then(user => {
+            expect(user).to.have.property('name');
+        });
+    });
+    
+    // С done
+    it('получение пользователя (callback)', (done) => {
+        fetchUser(1)
+            .then(user => {
+                expect(user).to.have.property('name');
+                done();
+            })
+            .catch(done);
+    });
+    
+    // Проверка ошибок
+    it('ошибка при получении несуществующего пользователя', async () => {
+        try {
+            await fetchUser(999);
+            // Если дошли сюда, то тест должен провалиться
+            expect.fail('Должна была возникнуть ошибка');
+        } catch (e) {
+            expect(e.message).to.match(/ошибка/i);
+        }
+    });
 });
-});
-````
+```
 
-#### Моки з Sinon
+#### Моки с Sinon
 
-``` bash
+```bash
 npm install --save-dev sinon
-````
+```
 
 ```javascript
-//user-service.js
+// user-service.js
 const api = require('./api');
 
-class UserService { 
-async getUser(id) { 
-const user = await api.fetchUser(id); 
-return { 
-...user, 
-fullName: `${user.firstName} ${user.lastName}` 
-}; 
-}
+class UserService {
+    async getUser(id) {
+        const user = await api.fetchUser(id);
+        return {
+            ...user,
+            fullName: `${user.firstName} ${user.lastName}`
+        };
+    }
 }
 
 module.exports = UserService;
-````
+```
 
 ```javascript
-//user-service.test.js
-const {expect} = require('chai');
+// user-service.test.js
+const { expect } = require('chai');
 const sinon = require('sinon');
 const UserService = require('./user-service');
 const api = require('./api');
 
-describe('UserService', () => { 
-// Відновлюємо оригінальні функції після кожного тесту 
-afterEach(() => { 
-sinon.restore(); 
-}); 
-
-it('getUser повертає користувача з повним ім'ям', async() => { 
-// Створюємо заглушку 
-const stub = sinon.stub(api, 'fetchUser').resolves({ 
-id: 1, 
-firstName: 'John', 
-lastName: 'Doe' 
-}); 
-
-const userService = новий UserService(); 
-const user = await userService.getUser(1); 
-
-// Перевірки 
-expect(stub.calledWith(1)).to.be.true; 
-expect(user.fullName).to.equal('John Doe'); 
-}); 
-
-// Шпигун 
-it('шпигун для методу', () => { 
-const calculator = { 
-add: (a, b) => a + b 
-}; 
-
-// Створюємо шпигуна 
-const spy = sinon.spy(calculator, 'add'); 
-
-calculator.add(2, 3); 
-
-expect(spy.calledWith(2, 3)).to.be.true; 
-expect(spy.callCount).to.equal(1); 
+describe('UserService', () => {
+    // Восстанавливаем оригинальные функции после каждого теста
+    afterEach(() => {
+        sinon.restore();
+    });
+    
+    it('getUser возвращает пользователя с полным именем', async () => {
+        // Создаем заглушку
+        const stub = sinon.stub(api, 'fetchUser').resolves({
+            id: 1,
+            firstName: 'John',
+            lastName: 'Doe'
+        });
+        
+        const userService = new UserService();
+        const user = await userService.getUser(1);
+        
+        // Проверки
+        expect(stub.calledWith(1)).to.be.true;
+        expect(user.fullName).to.equal('John Doe');
+    });
+    
+    // Шпион
+    it('шпион для метода', () => {
+        const calculator = {
+            add: (a, b) => a + b
+        };
+        
+        // Создаем шпиона
+        const spy = sinon.spy(calculator, 'add');
+        
+        calculator.add(2, 3);
+        
+        expect(spy.calledWith(2, 3)).to.be.true;
+        expect(spy.callCount).to.equal(1);
+    });
 });
-});
-````
+```
 
-## Сучасні можливості JavaScript
+## Современные возможности JavaScript
 
-### Оператор опціональної послідовності (?.)
+### Оператор опциональной последовательности (?.)
 
 ```javascript
-const user = { 
-profile: { 
-address: { 
-city: 'Москва' 
-} 
-}
+const user = {
+    profile: {
+        address: {
+            city: 'Москва'
+        }
+    }
 };
 
-// Старий спосіб
+// Старый способ
 const city1 = user && user.profile && user.profile.address && user.profile.address.city;
 
-// Новий спосіб
+// Новый способ
 const city2 = user?.profile?.address?.city;
 
-// Працює з методами
-const result = user.getDetails?.(); // Не викликає помилку, якщо методу немає
+// Работает с методами
+const result = user.getDetails?.(); // Не вызовет ошибку, если метода нет
 
-// Працює з масивами
-const firstItem = array?. [0];
-````
+// Работает с массивами
+const firstItem = array?.[0];
+```
 
-### Оператор нульового злиття (??)
+### Оператор нулевого слияния (??)
 
 ```javascript
-// Старий спосіб (проблема: 0 і '' вважаються хибними)
-const value1 = someValue || 'за замовчуванням';
+// Старый способ (проблема: 0 и '' считаются ложными)
+const value1 = someValue || 'значение по умолчанию';
 
-// Новий спосіб (null і undefined замінюються на значення за замовчуванням)
-const value2 = someValue ?? 'за замовчуванням';
+// Новый способ (null и undefined заменяются на значение по умолчанию)
+const value2 = someValue ?? 'значение по умолчанию';
 
-// Приклади
+// Примеры
 const count = 0;
-console.log(count || 10); // 10 (0 вважається хибним)
-console.log(count ?? 10); // 0 (0 не є null або undefined)
+console.log(count || 10); // 10 (0 считается ложным)
+console.log(count ?? 10); // 0 (0 не является null или undefined)
 
 const name = '';
-console.log(name || 'Гість'); // "Гість" (порожній рядок вважається хибним)
-console.log(name ?? 'Гість'); // "" (порожній рядок не є null або undefined)
-````
+console.log(name || 'Гость'); // "Гость" (пустая строка считается ложной)
+console.log(name ?? 'Гость'); // "" (пустая строка не является null или undefined)
+```
 
-### Логічне присвоєння
+### Логическое присваивание
 
 ```javascript
-// Логічне І (&&=)
+// Логическое И (&&=)
 let x = 1;
-x &&= 2; // Еквівалентно: x = x && 2
+x &&= 2; // Эквивалентно: x = x && 2
 console.log(x); // 2
 
 let y = 0;
-y &&= 2; // Еквівалентно: y = y && 2
+y &&= 2; // Эквивалентно: y = y && 2
 console.log(y); // 0 (т.к. 0 && 2 = 0)
 
-// Логічне АБО (||=)
+// Логическое ИЛИ (||=)
 let a = 0;
-a ||= 1; // Еквівалентно: a = a | 1
+a ||= 1; // Эквивалентно: a = a || 1
 console.log(a); // 1
 
 let b = 2;
-b ||= 1; // Еквівалентно: b = b | 1
-console.log(b); // 2 (т.к. 2 | | 1 = 2)
+b ||= 1; // Эквивалентно: b = b || 1
+console.log(b); // 2 (т.к. 2 || 1 = 2)
 
-// Нульове злиття (?? =)
+// Нулевое слияние (??=)
 let c = null;
-c ?? = 'значення'; // Еквівалентно: c = c ?? 'значення'
-console.log(c); // "значення"
+c ??= 'значение'; // Эквивалентно: c = c ?? 'значение'
+console.log(c); // "значение"
 
 let d = 0;
-d ?? = 'значення'; // Еквівалентно: d = d?? 'значення'
-console.log(d); // 0 (т.к. 0 ?? 'значення' = 0)
-````
+d ??= 'значение'; // Эквивалентно: d = d ?? 'значение'
+console.log(d); // 0 (т.к. 0 ?? 'значение' = 0)
+```
 
-### Приватні поля та методи класів
+### Приватные поля и методы классов
 
 ```javascript
-class BankAccount { 
-// Приватне поле (з #) 
-# Balance = 0; 
-
-// Приватний метод 
-#validateAmount(amount) { 
-if (amount <= 0) { 
-throw new Error('Сума повинна бути позитивною'); 
-} 
-} 
-
-constructor(initialBalance = 0) { 
-if (initialBalance > 0) { 
-this.#balance = initialBalance; 
-} 
-} 
-
-deposit(amount) { 
-this.#validateAmount(amount); 
-this.#balance += amount; 
-return this.#balance; 
-} 
-
-get balance() { 
-return this.#balance; 
-} 
-
-// Статичний приватний метод 
-static #generateAccountNumber() { 
-return Math.floor(Math.random() * 1000000); 
-} 
-
-static createAccount(initialBalance) { 
-const account = new BankAccount(initialBalance); 
-account.accountNumber = this.#generateAccountNumber(); 
-return account; 
+class BankAccount {
+    // Приватное поле (с #)
+    #balance = 0;
+    
+    // Приватный метод
+    #validateAmount(amount) {
+        if (amount <= 0) {
+            throw new Error('Сумма должна быть положительной');
+        }
+    }
+    
+    constructor(initialBalance = 0) {
+        if (initialBalance > 0) {
+            this.#balance = initialBalance;
+        }
+    }
+    
+    deposit(amount) {
+        this.#validateAmount(amount);
+        this.#balance += amount;
+        return this.#balance;
+    }
+    
+    get balance() {
+        return this.#balance;
+    }
+    
+    // Статический приватный метод
+    static #generateAccountNumber() {
+        return Math.floor(Math.random() * 1000000);
+    }
+    
+    static createAccount(initialBalance) {
+        const account = new BankAccount(initialBalance);
+        account.accountNumber = this.#generateAccountNumber();
+        return account;
+    }
 }
-}
-````
+```
 
 ### Top-level await
 
-У сучасних модулях ES можна використовувати await на верхньому рівні, без обертання в async-функцію.
+В современных модулях ES можно использовать await на верхнем уровне, без оборачивания в async-функцию.
 
 ```javascript
 // module.js
 const response = await fetch('https://api.example.com/data');
 const data = await response.json();
 
-export {data};
-````
+export { data };
+```
 
-### Метод at() для індексації масивів
+### Метод at() для индексации массивов
 
 ```javascript
 const array = [10, 20, 30, 40, 50];
 
-// Доступ до останнього елементу
-const last = array [array.length – 1]; // Старий спосіб
-const last2 = array.at(-1); // Новий спосіб: 50
+// Доступ к последнему элементу
+const last = array[array.length - 1]; // Старый способ
+const last2 = array.at(-1); // Новый способ: 50
 
-// Доступ до передостаннього елементу
+// Доступ к предпоследнему элементу
 const secondLast = array.at(-2); // 40
 
-// Працює і з позитивними індексами
+// Работает и с положительными индексами
 const first = array.at(0); // 10
-````
+```
 
 ### Метод replaceAll()
 
 ```javascript
-const string = 'Привіт, мир! Привіт JavaScript!';
+const string = 'Привет, мир! Привет, JavaScript!';
 
-// Старий спосіб (з регулярним виразом)
-const newString1 = string.replace(/Привіт/g, 'Привіт');
+// Старый способ (с регулярным выражением)
+const newString1 = string.replace(/Привет/g, 'Здравствуй');
 
-// Новий спосіб
-const newString2 = string.replaceAll('Привіт', 'Привіт');
-````
+// Новый способ
+const newString2 = string.replaceAll('Привет', 'Здравствуй');
+```
 
-### Promise.any та AggregateError
+### Promise.any и AggregateError
 
 ```javascript
-// Promise.any повертає перший успішно виконаний проміс
-try { 
-const result = await Promise.any([ 
-fetch('https://api1.example.com/data').then(r => r.json()), 
-fetch('https://api2.example.com/data').then(r => r.json()), 
-fetch('https://api3.example.com/data').then(r => r.json()) 
-]); 
-
-console.log('Перший успішний результат:', result);
-} catch (error) { 
-// AggregateError містить усі помилки, якщо всі проміси відхилені 
-console.error('Всі запити завершилися з помилкою:', error.errors);
+// Promise.any возвращает первый успешно выполненный промис
+try {
+    const result = await Promise.any([
+        fetch('https://api1.example.com/data').then(r => r.json()),
+        fetch('https://api2.example.com/data').then(r => r.json()),
+        fetch('https://api3.example.com/data').then(r => r.json())
+    ]);
+    
+    console.log('Первый успешный результат:', result);
+} catch (error) {
+    // AggregateError содержит все ошибки, если все промисы отклонены
+    console.error('Все запросы завершились с ошибкой:', error.errors);
 }
-````
+```
 
 ### Numeric Separators
 
 ```javascript
-// Великі числа стали більш читаними
+// Большие числа стали более читаемыми
 const billion = 1_000_000_000;
 const binary = 0b1010_0001_1000_0101;
 const hex = 0xFF_EC_DE_5E;
-````
+```
 
-### Фіналізатори для класів
+### Финализаторы для классов
 
 ```javascript
-class ResourceHandler { 
-constructor() { 
-this.resource = acquireResource(); 
-} 
-
-// Метод, що викликається перед збиранням сміття 
-// Зверніть увагу: немає гарантії, що його буде викликано! 
-[Symbol.for('nodejs.util.inspect.custom')] = () => { 
-return 'ResourceHandler'; 
-};
+class ResourceHandler {
+    constructor() {
+        this.resource = acquireResource();
+    }
+    
+    // Метод, вызываемый перед сборкой мусора
+    // Обратите внимание: нет гарантии, что он будет вызван!
+    [Symbol.for('nodejs.util.inspect.custom')] = () => {
+        return 'ResourceHandler';
+    };
 }
-````
+```
 
-### Глобальний this
+### Глобальный this
 
 ```javascript
-// Працює у будь-якому оточенні (браузер, Node.js, WebWorker)
+// Работает в любом окружении (браузер, Node.js, WebWorker)
 const globalObject = globalThis;
 
-// У браузері це window
-// У Node.js це global
-// У WebWorker це self
-````
+// В браузере это window
+// В Node.js это global
+// В WebWorker это self
+```
 
-### Intl API для інтернаціоналізації
+### Intl API для интернационализации
 
 ```javascript
-// Форматування дат
-const date = New Date();
-const formatter = new Intl.DateTimeFormat('ru', { 
-weekday: 'long', 
-year: 'numeric', 
-month: 'long', 
-day: 'numeric'
+// Форматирование дат
+const date = new Date();
+const formatter = new Intl.DateTimeFormat('ru', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
 });
-console.log(formatter.format(date)); // "понеділок, 15 січня 2023 р."
+console.log(formatter.format(date)); // "понедельник, 15 января 2023 г."
 
-// Форматування чисел
+// Форматирование чисел
 const number = 123456.789;
 console.log(new Intl.NumberFormat('ru').format(number)); // "123 456,789"
-console.log(new Intl.NumberFormat('ru', { style: 'currency', currency: 'RUB'}).format(number)); // "123 456,79 ₽"
+console.log(new Intl.NumberFormat('ru', { style: 'currency', currency: 'RUB' }).format(number)); // "123 456,79 ₽"
 
-// Порівняння рядків з урахуванням локалі
+// Сравнение строк с учетом локали
 const collator = new Intl.Collator('ru');
-['я', 'б', 'в', 'а']. sort(collator.compare); // ["а", "б", "в", "я"]
+['я', 'б', 'в', 'а'].sort(collator.compare); // ["а", "б", "в", "я"]
 
-// Відносний час
+// Относительное время
 const rtf = new Intl.RelativeTimeFormat('ru');
-console.log(rtf.format(-1, 'day')); // "1 день тому"
-console.log(rtf.format(2, 'month')); // "Через 2 місяці"
+console.log(rtf.format(-1, 'day')); // "1 день назад"
+console.log(rtf.format(2, 'month')); // "через 2 месяца"
 
 // Списки
-const listFormat = new Intl.ListFormat('ru', { style: 'long', type: 'conjunction'});
-console.log(listFormat.format(['яблука', 'груші', 'банани']))); // "яблука, груші та банани"
-````
+const listFormat = new Intl.ListFormat('ru', { style: 'long', type: 'conjunction' });
+console.log(listFormat.format(['яблоки', 'груши', 'бананы'])); // "яблоки, груши и бананы"
+```
+
 ---
